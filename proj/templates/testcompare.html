@@ -1,0 +1,131 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <title>IC</title>
+    <!-- Favicon
+    <link rel="icon" href="favicon.ico" type="image/x-icon">-->
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">
+
+    <!-- Bootstrap Core Css -->
+    <link href="{{url_for('static', filename='bootstrap/css/bootstrap.css')}}" rel="stylesheet">
+
+    <!-- Custom Css -->
+    <link href="{{url_for('static', filename='style.css')}}" rel="stylesheet">
+
+</head>
+
+<body>
+    <nav class="navbar" style="background-color: white;">
+        <div  style="background-color: #000;">
+            <div style="min-height: 45px;"></div>
+        </div>
+        <div class="card-navbar-down">
+          <div class="row clearfix" style="margin-botton: 0px;">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" >
+                <div class="col-md-3 custom-file">
+                    <form method="POST" enctype="multipart/form-data">
+                        <div class="form-group" style="margin-top: 20px; margin-botton: 20px;">
+                            {{ umcsv.csrf_token }}
+                            {{ umcsv.entry(class="btn bg-black custom-file-input", onchange="form.submit()") }}
+<!--                            <button class="btn bg-black  custom-file-input" type="submit" name="button">Botão</button>-->
+                        </div>
+                    </form>
+                </div>
+              <form class="" method="post">
+                <div class="form-group" style="margin-top: 0px;">
+                  <div class="">
+
+                    <div class="col-md-2" style="padding: 5px;">
+                        {{ filterchoice.combobx }}
+<!--                      <select class="custom-select" required>-->
+<!--                        <option value="">Cluster</option>-->
+<!--                      </select>-->
+                        {{ filterchoice.combobx2 }}
+<!--                      <select class="custom-select"  style="margin-left:15px;" required>-->
+<!--                        <option value="">Cluster</option>-->
+<!--                      </select>-->
+                    </div>
+                    <div class="col-md-2">
+                      <div class="form-check form-check-inline">
+                          {{ filterchoice.checkbxgraph }}
+                          <label class="form-check-label" >Graphs</label>
+                          {{ filterchoice.checkbxother }}
+<!--                        <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">-->
+
+<!--                        <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">-->
+                            <label class="form-check-label" >Others</label>
+                      </div>
+                    </div>
+                    <div class="col-md-2">
+                      <div class="form-check form-check-inline">
+<!--                      {{ filterchoice.hidden_tag() }}-->
+                          {{ filterchoice.radialcircle(style="list-style: none; padding-left: 0px; margin-top: -15px;") }}
+<!--                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">-->
+<!--                        <label class="form-check-label" for="inlineRadio1">Activities</label>-->
+<!--                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option1">-->
+<!--                        <label class="form-check-label" for="inlineRadio2">Transitions</label>-->
+                      </div>
+                    </div>
+                    <div class="col-md-2">
+
+                    </div>
+                    <div class="col-md-1">
+                      <button type="submit" name="button" class="btn bg-black" style="width: 80px; height: 40px; margin-top: -10px; padding: 0;"><h5>OK</h5> </button>
+                    </div>
+                  </div>
+
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+    </nav>
+
+    <section class="content">
+        <div class="container-fluid" style="margin-top: 30px;">
+        <div class="row clearfix" >
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+              <div class="block-header">
+                  <h2 align="center">
+                      SPACE1
+                      <small>Área de infos do Cluster 1</small>
+                  </h2>
+              </div>
+                <div class="card">
+                    <!-- <div class="header">
+                        <h2>REAL-TIME CHART</h2>
+                    </div> -->
+                    <div class="body">
+                        <div  class=""><img src="img.png" alt="" width='100%'> </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+              <div class="block-header">
+                  <h2 align="center">
+                      SPACE2
+                      <small>Área de infos do Cluster 2</small>
+                  </h2>
+              </div>
+                <div class="card">
+                    <!-- <div class="header">
+                        <h2>REAL-TIME CHART</h2>
+                    </div> -->
+                    <div class="body">
+                        <div id="" class=""><img src="4p1.png" alt="" width='100%'> </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    </section>
+
+</body>
+
+</html>

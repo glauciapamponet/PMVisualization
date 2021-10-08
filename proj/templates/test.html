@@ -1,0 +1,251 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <title>IC</title>
+    <!-- Favicon
+    <link rel="icon" href="favicon.ico" type="image/x-icon">-->
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">
+
+    <!-- Bootstrap Core Css -->
+    <link href="{{url_for('static', filename='bootstrap/css/bootstrap.css')}}" rel="stylesheet">
+
+    <!-- Bootstrap Select Css -->
+    <link href="{{url_for('static', filename='bootstrap/css/bootstrap-select.css')}}" rel="stylesheet">
+
+    <!-- Custom Css -->
+    <link href="{{url_for('static', filename='style.css')}}" rel="stylesheet">
+    <style>
+        .legenda {
+            padding: 5px 10px;
+            margin-top: -10px;
+            background-color: #f0f0f0;
+            border-radius: 7px;
+            border-color: gray;
+        }
+
+        .sub div{
+            padding: 0px;
+            border-radius: 10px solid black
+            margin-top:10px;
+        }
+<!--        select {-->
+<!--            appearance: none;-->
+<!--            -webkit-appearance: none;-->
+<!--            -moz-appearance: none;-->
+<!--            background: url(../static/icons8-triangle-arrow-12.png) no-repeat center right 5px #FFF;-->
+<!--            border: 1px solid #333;-->
+<!--            border-radius: 5px;-->
+<!--            font-size: 15px;-->
+<!--            padding-right: 20px;-->
+<!--            padding-left: 5px;-->
+<!--        }-->
+        .checkb[type="checkbox"]:before {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            border: 1px solid #333;
+            border-radius: 3px;
+            height: 13px;
+            width: 13px;
+        }
+        .checkb input:checked {
+          background-color: black;
+        }
+
+    </style>
+
+</head>
+
+<body>
+    <nav class="navbar" style="background-color: white;">
+        <div  style="background-color: #000;">
+            <div style="min-height: 15px;"></div>
+        </div>
+        <div class="card-navbar-down">
+          <div class="row clearfix" style="margin-botton: 0px;">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" >
+                <div class="col-xs-12 col-sm-2 col-md-3 col-lg-3 col-xl-3 custom-file" style="padding: 15px;">
+                    <form method="POST"  enctype="multipart/form-data">
+                        <div class="row" style="margin-top: 0px; margin-botton: 0px;">
+                            {{ umcsv.csrf_token }}
+                            {{ umcsv.entry(id="actual-btn", onchange="form.submit()", style="display: none;") }}
+                            <!-- our custom upload button -->
+                            <label for="actual-btn" class="btn bg-black"><i class="material-icons">publish</i></label>
+                            <!-- name of file chosen -->
+                            {% if filename != 'No file chosen' %}
+                                <span id="file-chosen"  style="margin-left: 15px;"><strong>File: </strong>{{ filename }}</span>
+                            {% else %}
+                                <span id="file-chosen"  style="margin-left: 15px;">{{ filename }}</span>
+                            {% endif %}
+                        </div>
+                    </form>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-5 col-lg-9 col-xl-9" style="padding: 15px 15px 0px 15px;">
+                    <form class=""  method="POST" enctype="multipart/form-data">
+                        <div class="" style="margin-top: 0px; margin-botton: 0px;">
+                          <div  align="center">
+                            <div class="col-md-1"></div>
+                            <div class="col-md-2 legenda" >
+                                <label>Clusters</label>
+                                <div class="row" style="padding-bottom: 3px;">
+                                    {{ filterchoice.csrf_token }}
+                                    <div class="col-md-6" style="padding: 0px;">
+                                        {{ filterchoice.combobx(class="form-select") }}
+                                    </div>
+                                    <div class="col-md-6" style="padding:0px;">
+                                        {{ filterchoice.combobx2 }}
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+<!--                            <div class="col-md-2 legenda" style="margin-left: 20px;">-->
+<!--                              <label>Type</label>-->
+<!--                              <div class="form-check form-check-inline" style="margin-top: -4px;">-->
+<!--                                  {{ filterchoice.checkbxgraph() }}-->
+<!--                                  <label class="form-check-label" style="margin:0px;">Graphs</label>-->
+<!--                                  {{ filterchoice.checkbxother() }}-->
+<!--                                  <label class="form-check-label" style="margin:0px;">Others</label>-->
+<!--                              </div>-->
+<!--                            </div>-->
+
+                            <div class="col-md-3 legenda" style="margin-left: 20px;">
+                                <label>Visualisation</label>
+                              <div class="form-check form-check-inline" style="margin-top: -2px;">
+        <!--                      {{ filterchoice.hidden_tag() }}-->
+                                  {% for subfield in filterchoice.radialcircle %}
+                                    {{ subfield }}
+                                    {{ subfield.label(style="margin:0px;") }}
+                                  {% endfor %}
+        <!--                      {{ filterchoice.radialcircle(style="list-style: none; padding-left: 0px; margin-top: -15px;") }}-->
+                              </div>
+                            </div>
+                              <div class="col-md-1"></div>
+                            <div class="col-md-2" style="margin-left: 150px;">
+
+                            </div>
+                            <div class="col-md-1">
+                                {{ filterchoice.submit(class="btn bg-black", style="width: 80px; height: 40px; margin-top: 0px; padding: 0;") }}
+        <!--                      <button type="submit" name="button" class="btn bg-black" style="width: 80px; height: 40px; margin-top: -10px; padding: 0;"><h5>OK</h5> </button>-->
+                            </div>
+                          </div>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+          </div>
+        </div>
+    </nav>
+
+    <section class="content" style="margin-top: 90px;">
+        <div class="container-fluid">
+        <div class="row clearfix" >
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+
+                {% if imageboost %}
+<!--                    <div class="block-header">-->
+<!--                      <h2 align="center">-->
+<!--                          CLUSTER {{ c1 }}-->
+<!--&lt;!&ndash;                          <small>Área de infos do Cluster 1</small>&ndash;&gt;-->
+<!--                      </h2>-->
+<!--                    </div>-->
+                    <div class="card" style="margin-bottom:5px;">
+                     <div class="header bg-black" style="padding-top: 15px; padding-bottom: 15px;" align="center">
+                         <h2><strong>CLUSTER {{ c1 }}</strong></h2>
+                    </div>
+                        <div class="body" style="padding: 15px;">
+                            <div  class="" align="center"><img src="../static/graphs/g1.png" alt="" width='75%'> </div>
+<!--                            <div class="sub row" align="center" style="">-->
+<!--                                {% for i in vsub_c1.keys() %}-->
+<!--                                    <div class="col-md-3" style="margin-bottom: 2px;">-->
+<!--                                        <strong>{{ i }} : {{ vsub_c1[i] }}</strong>-->
+<!--                                    </div>-->
+<!--                                {% endfor %}-->
+<!--&lt;!&ndash;                                <table>&ndash;&gt;-->
+<!--&lt;!&ndash;                                    <tr>&ndash;&gt;-->
+<!--&lt;!&ndash;                                    {% for i in range(0, vsub_c1.keys()|length) %}&ndash;&gt;-->
+<!--&lt;!&ndash;                                        {% if (i+1)%5 == 0 %}&ndash;&gt;-->
+<!--&lt;!&ndash;                                            </tr>&ndash;&gt;-->
+<!--&lt;!&ndash;                                            <tr>&ndash;&gt;-->
+<!--&lt;!&ndash;                                        {% endif %}&ndash;&gt;-->
+<!--&lt;!&ndash;                                        <td>{{ vsub_c1.keys()[i] }}: {{ vsub_c1[vsub_c1.keys()[i]] }}</td>&ndash;&gt;-->
+<!--&lt;!&ndash;                                    </tr>&ndash;&gt;-->
+<!--&lt;!&ndash;                                    {% endfor %}&ndash;&gt;-->
+
+<!--&lt;!&ndash;                                </table>&ndash;&gt;-->
+<!--                            </div>-->
+                        </div>
+                    </div>
+                {% endif %}
+
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+
+                {% if imageboost %}
+<!--                    <div class="block-header">-->
+<!--                      <h2 align="center">-->
+<!--                          CLUSTER {{ c2 }}-->
+<!--    &lt;!&ndash;                      <small>Área de infos do Cluster 2</small>&ndash;&gt;-->
+<!--                      </h2>-->
+<!--                    </div>-->
+                    <div class="card" style="margin-bottom:5px;">
+                    <div class="header bg-black" style="padding-top: 15px; padding-bottom: 15px;" align="center">
+                        <h2><strong>CLUSTER {{ c2 }}</strong></h2>
+                    </div>
+                        <div class="body" style="padding: 15px;">
+                            <div  class="" align="center"><img src="../static/graphs/g2.png" alt="" width='75%'> </div>
+<!--                            <div class="sub row" align="center" style="">-->
+<!--                                {% for i in vsub_c2.keys() %}-->
+<!--                                    <div class="col-md-3" style="margin-bottom: 2px;">-->
+<!--                                        <strong>{{ i }} : {{ vsub_c2[i] }}</strong>-->
+<!--                                    </div>-->
+<!--                                {% endfor %}-->
+<!--                            </div>-->
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                {% if imageboost %}
+                <div class="card">
+                    <div class="body" style="padding: 15px;">
+                        <div class="sub row" align="center" style="">
+<!--                            <div class="col-md-2" style="margin-bottom: 2px;">-->
+<!--                                    <strong>ST : Start</strong>-->
+<!--                            </div>-->
+                            {% for i in vsub_c2.keys() %}
+                                    <div class="col-md-2" style="margin-bottom: 2px; word-wrap: break-word; padding:0px 10px;" align="left">
+                                        <strong>{{ i }}:</strong>{{ vsub_c2[i] }}
+                                    </div>
+                            {% endfor %}
+<!--                            <div class="col-md-2" style="margin-bottom: 2px;">-->
+<!--                                    <strong>END : End</strong>-->
+<!--                            </div>-->
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    </section>
+<script>
+    const actualBtn = document.getElementById('actual-btn');
+
+    const fileChosen = document.getElementById('file-chosen');
+
+    actualBtn.addEventListener('change', function(){
+      fileChosen.textContent = this.files[0].name
+    })
+});
+</script>
+</body>
+
+</html>
