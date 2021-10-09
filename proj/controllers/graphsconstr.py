@@ -24,8 +24,10 @@ def get_vertices(df, seq_df_colname='Sequence'):
     verts = {i: act for i, act in enumerate(df['act seq'].explode().dropna().drop_duplicates().sort_values())}
     vertices = {i: rotulo(i) for i in verts.keys()}
     #print(vertices, verts)
-    # vertices[get_key('Start_Process', verts)] = 'ST'
-    # vertices[get_key('End_Process', verts)] = 'END'
+    vertices[get_key('ST', verts)] = 'ST'
+    vertices[get_key('END1', verts)] = 'END1'
+    vertices[get_key('END2', verts)] = 'END2'
+    vertices[get_key('END3', verts)] = 'END3'
     return vertices, verts
 
 
@@ -76,7 +78,6 @@ def get_diffs(result, g_id1, g_id2, verts, vertices):
 def find_end_graph(edges_ids, vertices):
     cnt_end = 1
     cnt_st = 1
-    print(edges_ids)
     for edg in edges_ids:
         if edg[1] not in [arst[0] for arst in edges_ids]:
             vertices[edg[1]] = 'END' + str(cnt_end) if cnt_end > 1 else 'END'
@@ -93,8 +94,9 @@ def get_vert_ativ(vertices, edges_ids):
 
 def view_config(g, vertices, edges_ids):
     def sizes(op1, op2, op3):
-        return [op1 if v.find('ST') != -1 or v.find('END') != -1
-                else op2 if get_key(v, vertices) not in get_vert_ativ(vertices, edges_ids) else op3 for v in vertices.values()]
+        vertsin = get_vert_ativ(vertices, edges_ids)
+        return [op1 if v.find('ST') != -1 or v.find('END') != -1 and get_key(v, vertices) not in vertsin
+                else op2 if get_key(v, vertices) not in vertsin else op3 for v in vertices.values()]
 
     vshape = ["circle" if edge.find('ST') != -1 or edge.find('END') != -1 else "rectangle" for edge in vertices.values()]
     layout = g.layout_reingold_tilford(root=[edges_ids[0][0]])
@@ -104,7 +106,7 @@ def view_config(g, vertices, edges_ids):
 
 def createimgtrans(c1, c2, nome):
     result = default.pdirectory[default.datafilter['arq']].copy()
-    # result['Sequence'] = result['Sequence'].apply(lambda x: 'Start_Process ' + x + ' End_Process')
+    #result['Sequence'] = result['Sequence'].apply(lambda x: 'Start_Process ' + x + ' End_Process')
     vertices, verts = get_vertices(result)
 
     # recebendo as diferenças entre o cluster c1 e o cluster c2. Lista do que tem em c1 que não tem em c2
@@ -112,8 +114,7 @@ def createimgtrans(c1, c2, nome):
 
     _, edlog_ids = get_edges(result, verts, vertices)
     edges_labels, edges_ids = get_edges(result[result.cluster == int(c1)], verts, vertices)
-    find_end_graph(edges_ids, vertices)
-    print(vertices)
+    #find_end_graph(edges_ids, vertices)
     # order_edges(edges_ids, vertices, edges_labels)
     ord_edges = list(set(edlog_ids) - set(edges_ids)) + edges_ids
     g = get_graph(vertices, list(set(ord_edges) - set(edges_ids)) + edges_ids)
@@ -136,7 +137,7 @@ def createimgtrans(c1, c2, nome):
 def get_diff_cluster(vertices, edges_ids, edges_ids2):
     dif1 = get_vert_ativ(vertices, edges_ids)  # nao tem no C1
     dif2 = get_vert_ativ(vertices, edges_ids2)  # nao tem no C2
-    return [i for i in dif2 if i not in dif1 and vertices[i] != 'ST' and vertices[i] != 'END']
+    return [i for i in dif2 if i not in dif1 and vertices[i] != 'ST' and vertices[i].find('END') == -1]
 
 
 def createimgativs(c1, c2, nome):
@@ -148,7 +149,7 @@ def createimgativs(c1, c2, nome):
     edges_labels, edges_ids = get_edges(result[result.cluster == int(c1)], verts, vertices)
     _, edges_ids2 = get_edges(result[result.cluster == int(c2)], verts, vertices)
     # order_edges(edges_ids, vertices, edges_labels)
-    find_end_graph(edges_ids, vertices)
+    #find_end_graph(edges_ids, vertices)
     g = get_graph(vertices, list(set(edlog_ids) - set(edges_ids)) + edges_ids)
     g.es['color'] = ['white' if edge.tuple not in edges_ids else 'black' for edge in g.es]
 
@@ -159,6 +160,8 @@ def createimgativs(c1, c2, nome):
     lcolor = ['black' if n in get_diff_cluster(vertices, edges_ids, edges_ids2) else 'white' for n in vertices.keys()]
     sizev, sizel, shapev, layout = view_config(g, vertices, edges_ids)
     vsub = {vertices[k]: verts[k] for k in vertices.keys()}
+    diffclus = [vertices[k] for k in diffclus]
+    print(diffclus)
     plot(g, layout=layout, vertex_shape=shapev, vertex_label_color=lcolor, vertex_size=sizev, edge_width=2, margin=50,
          vertex_label_size=sizel, vertex_color=atcolor, bbox=(600, 540), keep_aspect_ratio=False, target='proj/static/graphs/' + nome + '.png')
 
