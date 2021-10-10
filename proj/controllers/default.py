@@ -32,7 +32,7 @@ def test():
     filterchoice = ExibitionFilter()
     if umcsv.validate_on_submit():
         if len(checkxtension(umcsv.entry.data)) > 0:
-            print("TEM QUE SER CSV, GATA")
+            print("Only csv file")
             return redirect(request.url)
         else:
             if len(umcsv.entry.data) > 0:
@@ -62,7 +62,7 @@ def test():
                     vsub_c1 = graphsconstr.createimgtrans(c1, c2, "g1")
                     vsub_c2 = graphsconstr.createimgtrans(c2, c1, "g2")
                 except Exception as e:
-                    print("OLHA O ERRO: ", e)
+                    print("ERRO: ", e)
                     imageboost = False
         filterchoice.updatecombo(datafilter['cbxlist'])
     return render_template("test.html", umcsv=umcsv, filterchoice=filterchoice, imageboost=imageboost,
