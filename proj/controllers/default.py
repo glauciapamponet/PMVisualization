@@ -48,6 +48,7 @@ def test():
 
         c1 = filterchoice.combobx.data
         c2 = filterchoice.combobx2.data
+
         if c1 != -1 and c2 != -1:
             imageboost = True
             if filterchoice.radialcircle.data == 'activ':  # exibindo atividades
