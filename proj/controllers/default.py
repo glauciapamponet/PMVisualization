@@ -25,7 +25,7 @@ def test():
     imageboost = False
     c1 = -1
     c2 = -1
-    diffclus = []
+    diffclus = {'g1': [], 'g2':[]}
     vsub_c1 = {}
     vsub_c2 = {}
     umcsv = Directory()
@@ -52,8 +52,8 @@ def test():
             imageboost = True
             if filterchoice.radialcircle.data == 'activ':  # exibindo atividades
                 try:
-                    vsub_c1, diffclus = graphsconstr.createimgativs(c1, c2, "g1")
-                    vsub_c2, diffclus = graphsconstr.createimgativs(c2, c1, "g2")
+                    vsub_c1, diffclus['g1'] = graphsconstr.createimgativs(c1, c2, "g1")
+                    vsub_c2, diffclus['g2'] = graphsconstr.createimgativs(c2, c1, "g2")
                 except Exception as e:
                     print("OLHA O ERRO: ", e)
                     imageboost = False
@@ -66,4 +66,4 @@ def test():
                     imageboost = False
         filterchoice.updatecombo(datafilter['cbxlist'])
     return render_template("test.html", umcsv=umcsv, filterchoice=filterchoice, imageboost=imageboost,
-                           c1=c1, c2=c2, filename=datafilter['arq'], vsub_c1=vsub_c1, vsub_c2=vsub_c2)
+                           c1=c1, c2=c2, filename=datafilter['arq'], vsub_c1=vsub_c1, vsub_c2=vsub_c2, diffclus=diffclus)

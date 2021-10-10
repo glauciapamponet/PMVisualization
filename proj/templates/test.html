@@ -221,8 +221,14 @@
 <!--                                    <strong>ST : Start</strong>-->
 <!--                            </div>-->
                             {% for i in vsub_c2.keys() %}
+                                {% if i in diffclus['g1'] %}
+                                    <div class="col-md-2" style="margin-bottom: 2px; word-wrap: break-word; padding:0px 10px; color: #f0a202" align="left">
+                                {% elif i in diffclus ['g2'] %}
+                                    <div class="col-md-2" style="margin-bottom: 2px; word-wrap: break-word; padding:0px 10px; color: #f27cc9" align="left">
+                                {% else %}
                                     <div class="col-md-2" style="margin-bottom: 2px; word-wrap: break-word; padding:0px 10px;" align="left">
-                                        <strong>{{ i }}:</strong>{{ vsub_c2[i] }}
+                                {% endif %}
+                                       <strong>{{ i }}:</strong>{{ vsub_c2[i] }}
                                     </div>
                             {% endfor %}
 <!--                            <div class="col-md-2" style="margin-bottom: 2px;">-->
