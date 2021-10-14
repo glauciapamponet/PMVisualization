@@ -44,8 +44,8 @@ def test():
         colect.empty_diffs()
         colect.imageboost = False
         # if filterchoice.checkbxgraph.data:  # exibindo grafos
-        colect.c1 = [(val) for val in filterchoice.combobx.data.split(',')]
-        colect.c2 = [(val) for val in filterchoice.combobx2.data.split(',')]
+        colect.c1 = [val for val in filterchoice.combobx.data.split(',')]
+        colect.c2 = [val for val in filterchoice.combobx2.data.split(',')]
         # if -1 in c1 or -1 in c2: # desativar os combos temporariamente
         colect.imageboost = True
         if filterchoice.radialcircle.data == 'activ':  # exibindo atividades
