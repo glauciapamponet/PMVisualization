@@ -1,5 +1,4 @@
 from igraph import Graph, plot
-import pandas as pd
 from proj.controllers import default
 
 
@@ -98,9 +97,6 @@ def createimgtrans(c1, c2, nome):
     result['Sequence'] = result['Sequence'].apply(lambda x: 'Start_Process ' + x + ' End_Process')
     vertices, verts = get_vertices(result)
 
-    # comparando varios clusters:
-    #resconcat = pd.concat([result[result.cluster == dupla[0]], result[result.cluster == dupla[1]]], axis=0,
-                          #ignore_index=True)
     print(vertices)
     edges_labels, edges_ids = get_edges(result[result.cluster.isin(c1)], verts, vertices)
     _, edges_ids2 = get_edges(result[result.cluster.isin(c2)], verts, vertices)

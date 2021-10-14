@@ -38,3 +38,7 @@ class FilterColect():
     diffclus = {'g1': [], 'g2': []}
     vsub_c1 = {}
     vsub_c2 = {}
+
+    def empty_diffs(self):
+        self.diffclus['g1'] = []
+        self.diffclus['g2'] = []

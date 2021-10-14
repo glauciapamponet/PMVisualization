@@ -1,9 +1,7 @@
 from flask import render_template, url_for, request, redirect
-from werkzeug.utils import secure_filename
 from proj.controllers import graphsconstr as gc
 from proj import app
 from proj.models.diretorio import FileChoice, ExibitionFilter, FilterColect
-
 import pandas as pd
 
 app.config['SECRET_KEY'] = 'giovanna-e-um-cinco'
@@ -43,6 +41,7 @@ def test():
 
 
     if filterchoice.validate_on_submit() and len(datafilter['arq']) > 0:
+        colect.empty_diffs()
         colect.imageboost = False
         # if filterchoice.checkbxgraph.data:  # exibindo grafos
         colect.c1 = [int(val) for val in filterchoice.combobx.data.split(',')]
