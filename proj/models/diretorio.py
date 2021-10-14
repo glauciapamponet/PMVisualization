@@ -18,8 +18,8 @@ class FileChoice(FlaskForm):
 class ExibitionFilter(FlaskForm):
     # combobx = SelectField('Clusters', choices=[('-1', 'choose')])
     # combobx2 = SelectField('Clusters2', choices=[('-1', 'choose')])
-    combobx = StringField(u'Comp1', [validators.required(), validators.length(max=15)])
-    combobx2 = StringField(u'Comp2', [validators.required(), validators.length(max=15)])
+    combobx = StringField(u'Comp1', [validators.required(), validators.length(max=240)])
+    combobx2 = StringField(u'Comp2', [validators.required(), validators.length(max=240)])
     checkbxgraph = BooleanField("Graphs")
     checkbxother = BooleanField("Others")
     radialcircle = RadioField('Label', choices=[('activ', 'Activities'), ('trans', 'Transitions')])
