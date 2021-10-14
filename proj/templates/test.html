@@ -77,10 +77,10 @@
                             <!-- our custom upload button -->
                             <label for="actual-btn" class="btn bg-black"><i class="material-icons">publish</i></label>
                             <!-- name of file chosen -->
-                            {% if filename != 'No file chosen' %}
-                                <span id="file-chosen"  style="margin-left: 15px;"><strong>File: </strong>{{ filename }}</span>
+                            {% if umcsv.filename != 'No file chosen' %}
+                                <span id="file-chosen"  style="margin-left: 15px;"><strong>File: </strong>{{ umcsv.filename }}</span>
                             {% else %}
-                                <span id="file-chosen"  style="margin-left: 15px;">{{ filename }}</span>
+                                <span id="file-chosen"  style="margin-left: 15px;">{{ umcsv.filename }}</span>
                             {% endif %}
                         </div>
                     </form>
@@ -95,10 +95,10 @@
                                 <div class="row" style="padding-bottom: 3px;">
                                     {{ filterchoice.csrf_token }}
                                     <div class="col-md-6" style="padding: 0px;">
-                                        {{ filterchoice.combobx(class="form-select") }}
+                                        {{ filterchoice.combobx(class="form-select", style="width: 60px; height: 20px;", autocomplete="off") }}
                                     </div>
                                     <div class="col-md-6" style="padding:0px;">
-                                        {{ filterchoice.combobx2 }}
+                                        {{ filterchoice.combobx2(style="width: 60px; height: 20px;", autocomplete="off") }}
                                     </div>
 
                                 </div>
@@ -149,38 +149,13 @@
         <div class="row clearfix" >
             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
 
-                {% if imageboost %}
-<!--                    <div class="block-header">-->
-<!--                      <h2 align="center">-->
-<!--                          CLUSTER {{ c1 }}-->
-<!--&lt;!&ndash;                          <small>Área de infos do Cluster 1</small>&ndash;&gt;-->
-<!--                      </h2>-->
-<!--                    </div>-->
+                {% if colect.imageboost %}
                     <div class="card" style="margin-bottom:5px;">
                      <div class="header bg-black" style="padding-top: 15px; padding-bottom: 15px;" align="center">
                          <h2><strong>CLUSTER {{ c1 }}</strong></h2>
                     </div>
                         <div class="body" style="padding: 15px;">
                             <div  class="" align="center"><img src="../static/graphs/g1.png" alt="" width='75%'> </div>
-<!--                            <div class="sub row" align="center" style="">-->
-<!--                                {% for i in vsub_c1.keys() %}-->
-<!--                                    <div class="col-md-3" style="margin-bottom: 2px;">-->
-<!--                                        <strong>{{ i }} : {{ vsub_c1[i] }}</strong>-->
-<!--                                    </div>-->
-<!--                                {% endfor %}-->
-<!--&lt;!&ndash;                                <table>&ndash;&gt;-->
-<!--&lt;!&ndash;                                    <tr>&ndash;&gt;-->
-<!--&lt;!&ndash;                                    {% for i in range(0, vsub_c1.keys()|length) %}&ndash;&gt;-->
-<!--&lt;!&ndash;                                        {% if (i+1)%5 == 0 %}&ndash;&gt;-->
-<!--&lt;!&ndash;                                            </tr>&ndash;&gt;-->
-<!--&lt;!&ndash;                                            <tr>&ndash;&gt;-->
-<!--&lt;!&ndash;                                        {% endif %}&ndash;&gt;-->
-<!--&lt;!&ndash;                                        <td>{{ vsub_c1.keys()[i] }}: {{ vsub_c1[vsub_c1.keys()[i]] }}</td>&ndash;&gt;-->
-<!--&lt;!&ndash;                                    </tr>&ndash;&gt;-->
-<!--&lt;!&ndash;                                    {% endfor %}&ndash;&gt;-->
-
-<!--&lt;!&ndash;                                </table>&ndash;&gt;-->
-<!--                            </div>-->
                         </div>
                     </div>
                 {% endif %}
@@ -188,52 +163,33 @@
             </div>
             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
 
-                {% if imageboost %}
-<!--                    <div class="block-header">-->
-<!--                      <h2 align="center">-->
-<!--                          CLUSTER {{ c2 }}-->
-<!--    &lt;!&ndash;                      <small>Área de infos do Cluster 2</small>&ndash;&gt;-->
-<!--                      </h2>-->
-<!--                    </div>-->
+                {% if colect.imageboost %}
                     <div class="card" style="margin-bottom:5px;">
                     <div class="header bg-black" style="padding-top: 15px; padding-bottom: 15px;" align="center">
-                        <h2><strong>CLUSTER 3,4</strong></h2>
+                        <h2><strong>CLUSTER {{ c2 }}</strong></h2>
                     </div>
                         <div class="body" style="padding: 15px;">
                             <div  class="" align="center"><img src="../static/graphs/g2.png" alt="" width='75%'> </div>
-<!--                            <div class="sub row" align="center" style="">-->
-<!--                                {% for i in vsub_c2.keys() %}-->
-<!--                                    <div class="col-md-3" style="margin-bottom: 2px;">-->
-<!--                                        <strong>{{ i }} : {{ vsub_c2[i] }}</strong>-->
-<!--                                    </div>-->
-<!--                                {% endfor %}-->
-<!--                            </div>-->
                         </div>
                     </div>
                 {% endif %}
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                {% if imageboost %}
+                {% if colect.imageboost %}
                 <div class="card">
                     <div class="body" style="padding: 15px;">
                         <div class="sub row" align="center" style="">
-<!--                            <div class="col-md-2" style="margin-bottom: 2px;">-->
-<!--                                    <strong>ST : Start</strong>-->
-<!--                            </div>-->
-                            {% for i in vsub_c2.keys() %}
-                                {% if i in diffclus['g1'] %}
+                            {% for i in colect.vsub_c1.keys() %}
+                                {% if i in colect.diffclus['g1'] %}
                                     <div class="col-md-2" style="margin-bottom: 2px; word-wrap: break-word; padding:0px 10px; color: #f0a202" align="left">
-                                {% elif i in diffclus ['g2'] %}
+                                {% elif i in colect.diffclus['g2'] %}
                                     <div class="col-md-2" style="margin-bottom: 2px; word-wrap: break-word; padding:0px 10px; color: #f27cc9" align="left">
                                 {% else %}
                                     <div class="col-md-2" style="margin-bottom: 2px; word-wrap: break-word; padding:0px 10px;" align="left">
                                 {% endif %}
-                                       <strong>{{ i }}:</strong>{{ vsub_c2[i] }}
+                                       <strong>{{ i }}:</strong>{{ colect.vsub_c1[i] }}
                                     </div>
                             {% endfor %}
-<!--                            <div class="col-md-2" style="margin-bottom: 2px;">-->
-<!--                                    <strong>END : End</strong>-->
-<!--                            </div>-->
                         </div>
                     </div>
                 </div>

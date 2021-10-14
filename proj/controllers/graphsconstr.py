@@ -38,11 +38,11 @@ def get_edges(df, verts, vertices):
     return edges_labels, edges_ids
 
 
-def order_edges(edges_ids, vertices, edges_labels):
-    edges_ids.insert(0, (get_key('ST', vertices), edges_ids[0][0]))
-    edges_ids.append((edges_ids[-1][1], get_key('END', vertices)))
-    edges_labels.insert(0, ('ST', edges_labels[0][0]))
-    edges_labels.append((edges_labels[-1][1], 'END'))
+# def order_edges(edges_ids, vertices, edges_labels):
+#     edges_ids.insert(0, (get_key('ST', vertices), edges_ids[0][0]))
+#     edges_ids.append((edges_ids[-1][1], get_key('END', vertices)))
+#     edges_labels.insert(0, ('ST', edges_labels[0][0]))
+#     edges_labels.append((edges_labels[-1][1], 'END'))
 
 
 colors = ['#6c0303']  # bordô do PET
@@ -60,17 +60,17 @@ def get_graph(vertices, edges):
     return g
 
 
-def get_diffs(result, g_id1, g_id2, verts, vertices):
-    def get_group_edges(g_id):
-        group = result[result['cluster'] == g_id]
-        edges_labels, _ = get_edges(group, verts, vertices)
-        return edges_labels
-
-    edges_i = get_group_edges(g_id1)
-    edges_j = get_group_edges(g_id2)
-    diff1 = list(set(edges_i) - set(edges_j))  # transicoes que tem no i e nao tem no j
-    # diff2 = list(set(edges_j) - set(edges_i))  # transicoes que tem no j e nao tem no i
-    return diff1
+# def get_diffs(result, g_id1, g_id2, verts, vertices):
+#     def get_group_edges(g_id):
+#         group = result[result['cluster'] == g_id]
+#         edges_labels, _ = get_edges(group, verts, vertices)
+#         return edges_labels
+#
+#     edges_i = get_group_edges(g_id1)
+#     edges_j = get_group_edges(g_id2)
+#     diff1 = list(set(edges_i) - set(edges_j))  # transicoes que tem no i e nao tem no j
+#     # diff2 = list(set(edges_j) - set(edges_i))  # transicoes que tem no j e nao tem no i
+#     return diff1
 
 
 def get_vert_ativ(vertices, edges_ids):
@@ -87,30 +87,24 @@ def view_config(g, vertices, edges_ids):
     laylist[get_key('END', vertices)][0] = 0.0
     laylist[get_key('END', vertices)][1] += 1.0
     layout = laylist
-    # (17, 3), (3, 4), (4, 7), (7, 5), (5, 10), (10, 9), (9, 2), (2, 1), (1, 1), (1, 2), (2, 9), (9, 10), (10, 11), (11, 16), (16, 6), (3, 5), (5, 4), (4, 8)
+    # (17, 3), (3, 4), (4, 7), (7, 5), (5, 10), (10, 9), (9, 2), (2, 1), (1, 1), (1, 2), (2, 9), (9, 10), (10, 11),
+    # (11, 16), (16, 6), (3, 5), (5, 4), (4, 8)
 
     return sizes(30, 25, 0), sizes(10, 15, 0), vshape, layout  # sizev, sizel, vshape, layoutgraph
 
 
 def createimgtrans(c1, c2, nome):
-    dupla = [5, 7]
     result = default.pdirectory[default.datafilter['arq']].copy()
     result['Sequence'] = result['Sequence'].apply(lambda x: 'Start_Process ' + x + ' End_Process')
     vertices, verts = get_vertices(result)
 
     # comparando varios clusters:
-    resconcat = pd.concat([result[result.cluster == dupla[0]], result[result.cluster == dupla[1]]], axis=0,
-                          ignore_index=True)
-    print()
-    if c1 == '0':
-        _, edges_ids2 = get_edges(resconcat, verts, vertices)
-        edges_labels, edges_ids = get_edges(result[result.cluster == int(c1)], verts, vertices)
-        diffes = list(set(edges_ids) - set(edges_ids2))
-    else:
-        _, edges_ids2 = get_edges(result[result.cluster == int(c2)], verts, vertices)
-        edges_labels, edges_ids = get_edges(resconcat, verts, vertices)
-        diffes = list(set(edges_ids) - set(edges_ids2))  # recebendo as diferenças do que tem em c1 e não em c2.
-    print(diffes)
+    #resconcat = pd.concat([result[result.cluster == dupla[0]], result[result.cluster == dupla[1]]], axis=0,
+                          #ignore_index=True)
+    print(vertices)
+    edges_labels, edges_ids = get_edges(result[result.cluster.isin(c1)], verts, vertices)
+    _, edges_ids2 = get_edges(result[result.cluster.isin(c2)], verts, vertices)
+    diffes = list(set(edges_ids) - set(edges_ids2))  # recebendo as diferenças do que tem em c1 e não em c2.
 
     _, edlog_ids = get_edges(result, verts, vertices)
 
@@ -129,7 +123,7 @@ def createimgtrans(c1, c2, nome):
     vsub = {vertices[k]: verts[k] for k in vertices.keys()}
 
     plot(g, layout=layout, vertex_shape=shapev, vertex_label_color="white", vertex_size=sizev, edge_width=edwitdh,
-         margin=[30, 30, 30, 30],
+         margin=[30, 40, 40, 30],
          vertex_label_size=sizel, bbox=(600, 540), target='proj/static/graphs/' + nome + '.png')
 
     return vsub
@@ -142,22 +136,13 @@ def get_diff_cluster(vertices, edges_ids, edges_ids2):
 
 
 def createimgativs(c1, c2, nome):  # c2 são dois clusters
-    dupla = [5, 7]
     result = default.pdirectory[default.datafilter['arq']].copy()
     result['Sequence'] = result['Sequence'].apply(lambda x: 'Start_Process ' + x + ' End_Process')
     vertices, verts = get_vertices(result)
     _, edlog_ids = get_edges(result, verts, vertices)
 
-    print(vertices)
-    # comparando varios clusters:
-    resconcat = pd.concat([result[result.cluster == dupla[0]], result[result.cluster == dupla[1]]], axis=0,
-                          ignore_index=True)
-    if c1 == '0':
-        _, edges_ids2 = get_edges(resconcat, verts, vertices)
-        edges_labels, edges_ids = get_edges(result[result.cluster == int(c1)], verts, vertices)
-    else:
-        _, edges_ids2 = get_edges(result[result.cluster == int(c2)], verts, vertices)
-        edges_labels, edges_ids = get_edges(resconcat, verts, vertices)
+    edges_labels, edges_ids = get_edges(result[result.cluster.isin(c1)], verts, vertices)
+    _, edges_ids2 = get_edges(result[result.cluster.isin(c2)], verts, vertices)
 
     # order_edges(edges_ids, vertices, edges_labels)
     g = get_graph(vertices, list(set(edlog_ids) - set(edges_ids)) + edges_ids)
@@ -173,7 +158,7 @@ def createimgativs(c1, c2, nome):  # c2 são dois clusters
     vsub = {vertices[k]: verts[k] for k in vertices.keys()}
     diffclus = [vertices[k] for k in diffclus]
     plot(g, layout=layout, vertex_shape=shapev, vertex_label_color=lcolor, vertex_size=sizev, edge_width=2,
-         margin=[30, 30, 30, 30], vertex_label_size=sizel, vertex_color=atcolor, bbox=(600, 540),
+         margin=[30, 40, 40, 30], vertex_label_size=sizel, vertex_color=atcolor, bbox=(600, 540),
          keep_aspect_ratio=False,
          target='proj/static/graphs/' + nome + '.png')
     return vsub, diffclus

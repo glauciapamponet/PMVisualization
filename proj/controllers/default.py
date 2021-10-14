@@ -1,8 +1,8 @@
 from flask import render_template, url_for, request, redirect
 from werkzeug.utils import secure_filename
-from proj.controllers import graphsconstr
+from proj.controllers import graphsconstr as gc
 from proj import app
-from proj.models.diretorio import Directory, ExibitionFilter
+from proj.models.diretorio import FileChoice, ExibitionFilter, FilterColect
 
 import pandas as pd
 
@@ -22,17 +22,14 @@ def listcluster(arqname):
 
 @app.route("/", methods=["GET", "POST"])
 def test():
-    imageboost = False
-    c1 = -1
-    c2 = -1
-    diffclus = {'g1': [], 'g2':[]}
-    vsub_c1 = {}
-    vsub_c2 = {}
-    umcsv = Directory()
+    umcsv = FileChoice()
     filterchoice = ExibitionFilter()
+    colect = FilterColect()
+    umcsv.filename = datafilter['arq']
     if umcsv.validate_on_submit():
+        print(umcsv.filename)
         if len(checkxtension(umcsv.entry.data)) > 0:
-            print("TEM QUE SER CSV, GATA")
+            print("ONLY CSV")
             return redirect(request.url)
         else:
             if len(umcsv.entry.data) > 0:
@@ -40,31 +37,36 @@ def test():
                     pdirectory[str(file.filename)] = pd.read_csv(file)
                     datafilter['arq'] = str(file.filename)
                 datafilter['cbxlist'] = listcluster(datafilter['arq'])
-            filterchoice.updatecombo(datafilter['cbxlist'])
+                umcsv.filename = datafilter['arq']
+            print(umcsv.filename)
+            # filterchoice.updatecombo(datafilter['cbxlist']) # para combobox que não está funcionando
+
 
     if filterchoice.validate_on_submit() and len(datafilter['arq']) > 0:
-        imageboost = False
+        colect.imageboost = False
         # if filterchoice.checkbxgraph.data:  # exibindo grafos
+        colect.c1 = [int(val) for val in filterchoice.combobx.data.split(',')]
+        colect.c2 = [int(val) for val in filterchoice.combobx2.data.split(',')]
+        # if -1 in c1 or -1 in c2: # desativar os combos temporariamente
+        colect.imageboost = True
+        if filterchoice.radialcircle.data == 'activ':  # exibindo atividades
+            try:
+                colect.vsub_c1, colect.diffclus['g1'] = gc.createimgativs(colect.c1, colect.c2, "g1")
+                _, colect.diffclus['g2'] = gc.createimgativs(colect.c2, colect.c1, "g2")
+            except Exception as e:
+                print("OLHA O ERRO: ", e)
+                colect.imageboost = False
+        else:  # exibindo transições
+            try:
+                colect.vsub_c1 = gc.createimgtrans(colect.c1, colect.c2, "g1")
+                _ = gc.createimgtrans(colect.c2, colect.c1, "g2")
+            except Exception as e:
+                print("OLHA O ERRO: ", e)
+                colect.imageboost = False
+        # filterchoice.updatecombo(datafilter['cbxlist']) # para combobox que nao está funcionando
+    else: print(filterchoice.errors)
+    return render_template("test.html", umcsv=umcsv, filterchoice=filterchoice, colect=colect, c1=str(colect.c1)[1:-1],
+                           c2=str(colect.c2)[1:-1])
 
-        c1 = filterchoice.combobx.data
-        c2 = filterchoice.combobx2.data
 
-        if c1 != -1 and c2 != -1:
-            imageboost = True
-            if filterchoice.radialcircle.data == 'activ':  # exibindo atividades
-                try:
-                    vsub_c1, diffclus['g1'] = graphsconstr.createimgativs(c1, c2, "g1")
-                    vsub_c2, diffclus['g2'] = graphsconstr.createimgativs(c2, c1, "g2")
-                except Exception as e:
-                    print("OLHA O ERRO: ", e)
-                    imageboost = False
-            else:  # exibindo transições
-                try:
-                    vsub_c1 = graphsconstr.createimgtrans(c1, c2, "g1")
-                    vsub_c2 = graphsconstr.createimgtrans(c2, c1, "g2")
-                except Exception as e:
-                    print("OLHA O ERRO: ", e)
-                    imageboost = False
-        filterchoice.updatecombo(datafilter['cbxlist'])
-    return render_template("test.html", umcsv=umcsv, filterchoice=filterchoice, imageboost=imageboost,
-                           c1=c1, c2=c2, filename=datafilter['arq'], vsub_c1=vsub_c1, vsub_c2=vsub_c2, diffclus=diffclus)
+#, imageboost=imageboost, c1=str(c1)[1:-1], c2=str(c2)[1:-1], filename=datafilter['arq'], vsub_c1=vsub_c1, vsub_c2=vsub_c2, diffclus=diffclus
