@@ -36,14 +36,18 @@ def test():
                     datafilter['arq'] = str(file.filename)
                 datafilter['cbxlist'] = listcluster(datafilter['arq'])
                 umcsv.filename = datafilter['arq']
-            print(umcsv.filename)
-            # filterchoice.updatecombo(datafilter['cbxlist']) # para combobox que não está funcionando
+            # print(umcsv.filename)
+            filterchoice.updatecombo(datafilter['cbxlist']) # para combobox que não está funcionando
     if filterchoice.validate_on_submit() and len(datafilter['arq']) > 0:
         colect.empty_diffs()
         colect.imageboost = False
         # if filterchoice.checkbxgraph.data:  # exibindo grafos
-        colect.c1 = [(val) for val in filterchoice.combobx.data.split(',')]
-        colect.c2 = [(val) for val in filterchoice.combobx2.data.split(',')]
+        try:
+            colect.c1 = [int(val) for val in set(filterchoice.combobx.data)]
+            colect.c2 = [int(val) for val in set(filterchoice.combobx2.data)]
+        except:
+            colect.c1 = [(val) for val in set(filterchoice.combobx.data)]
+            colect.c2 = [(val) for val in set(filterchoice.combobx2.data)]
         # if -1 in c1 or -1 in c2: # desativar os combos temporariamente
         colect.imageboost = True
         if filterchoice.radialcircle.data == 'activ':  # exibindo atividades
@@ -60,11 +64,11 @@ def test():
             except Exception as e:
                 print("OLHA O ERRO: ", e)
                 colect.imageboost = False
-        # filterchoice.updatecombo(datafilter['cbxlist']) # para combobox que nao está funcionando
+        filterchoice.updatecombo(datafilter['cbxlist']) # para combobox que nao está funcionando
     else:
         print(filterchoice.errors)
         if len(datafilter['arq']) == 0: umcsv.filename = 'No file chosen'
-    return render_template("test.html", umcsv=umcsv, filterchoice=filterchoice, colect=colect, c1=str(colect.c1)[1:-1],
+    return render_template("page.html", umcsv=umcsv, filterchoice=filterchoice, colect=colect, c1=str(colect.c1)[1:-1],
                            c2=str(colect.c2)[1:-1])
 
 

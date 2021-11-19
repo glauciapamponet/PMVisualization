@@ -4,21 +4,18 @@
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <title>IC</title>
-    <!-- Favicon
-    <link rel="icon" href="favicon.ico" type="image/x-icon">-->
 
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">
 
     <!-- Bootstrap Core Css -->
-    <link href="{{url_for('static', filename='bootstrap/css/bootstrap.css')}}" rel="stylesheet">
-
-    <!-- Bootstrap Select Css -->
-    <link href="{{url_for('static', filename='bootstrap/css/bootstrap-select.css')}}" rel="stylesheet">
+    <link href="../static//plugins/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="../static/plugins/bootstrap-select/css/bootstrap-select.css" rel="stylesheet">
 
     <!-- Custom Css -->
     <link href="{{url_for('static', filename='style.css')}}" rel="stylesheet">
+
     <style>
         .legenda {
             padding: 5px 10px;
@@ -33,6 +30,7 @@
             border-radius: 10px solid black
             margin-top:10px;
         }
+
 <!--        select {-->
 <!--            appearance: none;-->
 <!--            -webkit-appearance: none;-->
@@ -62,16 +60,16 @@
 </head>
 
 <body>
-    <nav class="navbar" style="background-color: white;">
-        <div  style="background-color: #000;">
-            <div style="min-height: 15px;"></div>
-        </div>
+    <nav class="navbar" style="background-color: white; display: inline-block;">
+<!--        <div  style="background-color: #000;">-->
+<!--            <div style="min-height: 15px;"></div>-->
+<!--        </div>-->
         <div class="card-navbar-down">
           <div class="row clearfix" style="margin-botton: 0px;">
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" >
                 <div class="col-xs-12 col-sm-2 col-md-3 col-lg-3 col-xl-3 custom-file" style="padding: 15px;">
                     <form method="POST"  enctype="multipart/form-data">
-                        <div class="row" style="margin-top: 0px; margin-botton: 0px;">
+                        <div class="row" style="margin-left: 10px;">
                             {{ umcsv.csrf_token }}
                             {{ umcsv.entry(id="actual-btn", onchange="form.submit()", style="display: none;") }}
                             <!-- our custom upload button -->
@@ -85,22 +83,21 @@
                         </div>
                     </form>
                 </div>
-                <div class="col-xs-12 col-sm-6 col-md-5 col-lg-9 col-xl-9" style="padding: 15px 15px 0px 15px;">
+                <div class="col-xs-12 col-sm-6 col-md-5 col-lg-9 col-xl-9 body" style="padding: 15px 15px 0px 15px;">
                     <form class=""  method="POST" enctype="multipart/form-data">
-                        <div class="" style="margin-top: 0px; margin-botton: 0px;">
+                        <div class="" style="margin: 0px margin-botton: 0px;">
                           <div  align="center">
                             <div class="col-md-1"></div>
                             <div class="col-md-2 legenda" >
                                 <label>Clusters</label>
                                 <div class="row" style="padding-bottom: 3px;">
                                     {{ filterchoice.csrf_token }}
-                                    <div class="col-md-6" style="padding: 0px;">
-                                        {{ filterchoice.combobx(class="form-select", style="width: 60px; height: 20px;", autocomplete="off") }}
+                                    <div class="col-md-6" style="padding: 0px; width: 70px; margin-left: 15px;">
+                                        {{ filterchoice.combobx(class="form-control show-tick", style="width: 60px; height: 20px;") }}
                                     </div>
-                                    <div class="col-md-6" style="padding:0px;">
-                                        {{ filterchoice.combobx2(style="width: 60px; height: 20px;", autocomplete="off") }}
+                                    <div class="col-md-6" style="padding: 0px; width: 70px; margin-left: 20px;">
+                                        {{ filterchoice.combobx2(class="form-control show-tick", style="width: 60px; height: 20px;") }}
                                     </div>
-
                                 </div>
 
                             </div>
@@ -120,7 +117,7 @@
                               <div class="form-check form-check-inline" style="margin-top: -2px;">
         <!--                      {{ filterchoice.hidden_tag() }}-->
                                   {% for subfield in filterchoice.radialcircle %}
-                                    {{ subfield }}
+                                    {{ subfield(class="with-gap radio-col-black") }}
                                     {{ subfield.label(style="margin:0px;") }}
                                   {% endfor %}
         <!--                      {{ filterchoice.radialcircle(style="list-style: none; padding-left: 0px; margin-top: -15px;") }}-->
@@ -198,16 +195,23 @@
         </div>
     </div>
     </section>
-<script>
-    const actualBtn = document.getElementById('actual-btn');
+    <script src="../static/jquery.js"></script>
+    <script src="../static/plugins/bootstrap-select/js/bootstrap-select.js"></script>
+<!--    <script src="../static/plugins/bootstrap-select/js/i18n/defaults-pt_BR.js"></script>-->
+    <script src="../static/plugins/bootstrap/js/bootstrap.js"></script>
+    <script src="../static/plugins/node-waves/waves.js"></script>
+    <script src="../static/admin.js"></script>
 
-    const fileChosen = document.getElementById('file-chosen');
+    <script>
+        const actualBtn = document.getElementById('actual-btn');
 
-    actualBtn.addEventListener('change', function(){
-      fileChosen.textContent = this.files[0].name
-    })
-});
-</script>
+        const fileChosen = document.getElementById('file-chosen');
+
+        actualBtn.addEventListener('change', function(){
+          fileChosen.textContent = this.files[0].name
+        })
+    });
+    </script>
 </body>
 
 </html>

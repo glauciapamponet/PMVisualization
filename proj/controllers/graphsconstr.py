@@ -84,8 +84,13 @@ def view_config(g, vertices, edges_ids):
     vshape = ["circle" if edge == 'ST' or edge == 'END' else "rectangle" for edge in vertices.values()]
     laylist = list(g.layout_reingold_tilford(root=get_key('ST', vertices)))
     laylist[get_key('END', vertices)][0] = 0.0
-    laylist[get_key('END', vertices)][1] += 1.0
+    bigger = laylist[get_key('END', vertices)][1]
+    for a in laylist:
+        if a[1] > bigger:
+            bigger = a[1]
+    laylist[get_key('END', vertices)][1] = bigger + 1.0
     layout = laylist
+    print(laylist)
     # (17, 3), (3, 4), (4, 7), (7, 5), (5, 10), (10, 9), (9, 2), (2, 1), (1, 1), (1, 2), (2, 9), (9, 10), (10, 11),
     # (11, 16), (16, 6), (3, 5), (5, 4), (4, 8)
 

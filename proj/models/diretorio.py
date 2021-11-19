@@ -12,23 +12,26 @@ class FileChoice(FlaskForm):
         self.filename = name
 
 
-# class Directory():
+class NonValidatingSelectMultipleField(SelectMultipleField):
+    """
+    Attempt to make an open ended select multiple field that can accept dynamic
+    choices added by the browser.
+    """
+    def pre_validate(self, form):
+        pass
 
 
 class ExibitionFilter(FlaskForm):
-    # combobx = SelectField('Clusters', choices=[('-1', 'choose')])
-    # combobx2 = SelectField('Clusters2', choices=[('-1', 'choose')])
-    combobx = StringField(u'Comp1', [validators.required(), validators.length(max=240)])
-    combobx2 = StringField(u'Comp2', [validators.required(), validators.length(max=240)])
+    combobx = NonValidatingSelectMultipleField('Clusters', choices=[('-1', 'choose')], validate_choice=False)
+    combobx2 = NonValidatingSelectMultipleField('Clusters', choices=[('-1', 'choose')], validate_choice=False)
     checkbxgraph = BooleanField("Graphs")
     checkbxother = BooleanField("Others")
     radialcircle = RadioField('Label', choices=[('activ', 'Activities'), ('trans', 'Transitions')])
     submit = SubmitField('OK')
 
     def updatecombo(self, clusterlist):
-        for i in clusterlist:
-            self.combobx.choices.append((i, i))
-            self.combobx2.choices.append((i, i))
+        self.combobx.choices = [(i, i) for i in clusterlist]
+        self.combobx2.choices = [(i, i) for i in clusterlist]
 
 
 class FilterColect():
