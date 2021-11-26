@@ -31,17 +31,11 @@ def get_vertices(df, seq_df_colname='Sequence'):
 def get_edges(df, verts, vertices):
     df['transitions'] = df['act seq'].apply(lambda x: [(x[i - 1], x[i]) for i in range(1, len(x))])
     labels = list(df['transitions'].explode().dropna().drop_duplicates())
+    print(labels)
     edges_ids = [(get_key(i, verts), get_key(j, verts)) for i, j in labels]
     edges_labels = [(vertices[get_key(i, verts)], vertices[get_key(j, verts)]) for i, j in labels]
 
     return edges_labels, edges_ids
-
-
-# def order_edges(edges_ids, vertices, edges_labels):
-#     edges_ids.insert(0, (get_key('ST', vertices), edges_ids[0][0]))
-#     edges_ids.append((edges_ids[-1][1], get_key('END', vertices)))
-#     edges_labels.insert(0, ('ST', edges_labels[0][0]))
-#     edges_labels.append((edges_labels[-1][1], 'END'))
 
 
 colors = ['#6c0303']  # bordô do PET
