@@ -38,7 +38,7 @@ def test():
                 datafilter['cbxlist'] = listcluster(datafilter['arq'])
                 umcsv.filename = datafilter['arq']
             # print(umcsv.filename)
-            filterchoice.updatecombo(datafilter['cbxlist']) # para combobox que não está funcionando
+            filterchoice.updatecombo(datafilter['cbxlist'])  # para combobox que não está funcionando
     if filterchoice.validate_on_submit() and len(datafilter['arq']) > 0:
         colect.empty_diffs()
         colect.imageboost = False
@@ -65,21 +65,20 @@ def test():
                 except Exception as e:
                     print("OLHA O ERRO: ", e)
                     colect.imageboost = False
-        if filterchoice.checkbxother.data:
+        if filterchoice.checkbxother.data:  # exibindo other
             colect.graphothers = True
             try:
                 dsb.get_metrics(colect, colect.c1, 0)
                 dsb.get_metrics(colect, colect.c2, 1)
+                dsb.heat(colect, colect.c1, 0)
+                dsb.heat(colect, colect.c2, 1)
             except Exception as e:
                 print("ERRO: ", e)
                 colect.graphothers = False
 
-        filterchoice.updatecombo(datafilter['cbxlist']) # para combobox que nao está funcionando
+        filterchoice.updatecombo(datafilter['cbxlist'])  # para combobox que nao está funcionando
     else:
         print(filterchoice.errors)
         if len(datafilter['arq']) == 0: umcsv.filename = 'No file chosen'
     return render_template("page.html", umcsv=umcsv, filterchoice=filterchoice, colect=colect, c1=str(colect.c1)[1:-1],
                            c2=str(colect.c2)[1:-1])
-
-
-#, imageboost=imageboost, c1=str(c1)[1:-1], c2=str(c2)[1:-1], filename=datafilter['arq'], vsub_c1=vsub_c1, vsub_c2=vsub_c2, diffclus=diffclus

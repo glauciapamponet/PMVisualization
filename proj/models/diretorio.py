@@ -47,6 +47,9 @@ class FilterColect():
     evtAvg = [0, 0]
     totalCases = [0, 0]
     totalEvnts = [0, 0]
+    heatmaps = [None, None]
+
+
 
     def empty_diffs(self):
         self.diffclus['g1'] = []

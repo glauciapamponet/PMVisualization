@@ -27,35 +27,13 @@
             border-radius: 7px;
             border-color: gray;
         }
-
         .sub div{
             padding: 0px;
             border-radius: 10px solid black
             margin-top:10px;
         }
-
-<!--        select {-->
-<!--            appearance: none;-->
-<!--            -webkit-appearance: none;-->
-<!--            -moz-appearance: none;-->
-<!--            background: url(../static/icons8-triangle-arrow-12.png) no-repeat center right 5px #FFF;-->
-<!--            border: 1px solid #333;-->
-<!--            border-radius: 5px;-->
-<!--            font-size: 15px;-->
-<!--            padding-right: 20px;-->
-<!--            padding-left: 5px;-->
-<!--        }-->
-        .checkb[type="checkbox"]:before {
-            appearance: none;
-            -webkit-appearance: none;
-            -moz-appearance: none;
-            border: 1px solid #333;
-            border-radius: 3px;
-            height: 13px;
-            width: 13px;
-        }
-        .checkb input:checked {
-          background-color: black;
+        .padear{
+            padding: 0px 10px;
         }
 
     </style>
@@ -208,10 +186,18 @@
                     </div>
                     <div class="row">
                         <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
-                            <div class="info-box bg-red">
-                                <div class="content" align="center">
-                                    <div class="text">ACTIVITY AVERAGE</div>
-                                    <div class="number"> {{ colect.activAvg[0] }} </div>
+                            <div class="info-box bg-red" align="center">
+                                <div class="content">
+                                    <div class="text">TOTAL EVENTS</div>
+                                    <div class="number"> {{ colect.totalEvnts[0] }} </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
+                            <div class="info-box bg-red" align="center">
+                                <div class="content">
+                                    <div class="text">TOTAL CASES</div>
+                                    <div class="number"> {{ colect.totalCases[0] }} </div>
                                 </div>
                             </div>
                         </div>
@@ -232,18 +218,10 @@
                             </div>
                         </div>
                         <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
-                            <div class="info-box bg-red" align="center">
-                                <div class="content">
-                                    <div class="text">TOTAL CASES</div>
-                                    <div class="number"> {{ colect.totalCases[0] }} </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
-                            <div class="info-box bg-red" align="center">
-                                <div class="content">
-                                    <div class="text">TOTAL EVENTS</div>
-                                    <div class="number"> {{ colect.totalEvnts[0] }} </div>
+                            <div class="info-box bg-red">
+                                <div class="content" align="center">
+                                    <div class="text">ACTIVITY AVERAGE</div>
+                                    <div class="number"> {{ colect.activAvg[0] }} </div>
                                 </div>
                             </div>
                         </div>
@@ -255,7 +233,12 @@
                                 </div>
                             </div>
                         </div>
+
                     </div>
+                    <div class="card">
+                        <div id="heatmap1" class="heatmap1"></div>
+                    </div>
+
                 {% endif %}
             </div>
             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6"  style="padding-right: 30px;">
@@ -266,55 +249,58 @@
                          </div>
                     </div>
                 <div class="row">
-                        <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
-                            <div class="info-box bg-red">
-                                <div class="content" align="center">
-                                    <div class="text">ACTIVITY AVERAGE</div>
-                                    <div class="number"> {{ colect.activAvg[1] }} </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
-                            <div class="info-box bg-red" align="center">
-                                <div class="content">
-                                    <div class="text">TOTAL VARIANTS</div>
-                                    <div class="number"> {{ colect.varCount[1] }} </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
-                            <div class="info-box bg-red" align="center">
-                                <div class="content">
-                                    <div class="text">EVENTS AVERAGE</div>
-                                    <div class="number"> {{ colect.evtAvg[1] }} </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
-                            <div class="info-box bg-red" align="center">
-                                <div class="content">
-                                    <div class="text">TOTAL CASES</div>
-                                    <div class="number"> {{ colect.totalCases[1] }} </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
-                            <div class="info-box bg-red" align="center">
-                                <div class="content">
-                                    <div class="text">TOTAL EVENTS</div>
-                                    <div class="number"> {{ colect.totalEvnts[1] }} </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
-                            <div class="info-box bg-red" align="center">
-                                <div class="content">
-                                    <div class="text">TIME AVERAGE</div>
-                                    <div class="number"> -- </div>
-                                </div>
+                    <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
+                        <div class="info-box bg-red" align="center">
+                            <div class="content">
+                                <div class="text">TOTAL EVENTS</div>
+                                <div class="number"> {{ colect.totalEvnts[1] }} </div>
                             </div>
                         </div>
                     </div>
+                    <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
+                        <div class="info-box bg-red" align="center">
+                            <div class="content">
+                                <div class="text">TOTAL CASES</div>
+                                <div class="number"> {{ colect.totalCases[1] }} </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
+                        <div class="info-box bg-red" align="center">
+                            <div class="content">
+                                <div class="text">TOTAL VARIANTS</div>
+                                <div class="number"> {{ colect.varCount[1] }} </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
+                        <div class="info-box bg-red" align="center">
+                            <div class="content">
+                                <div class="text">EVENTS AVERAGE</div>
+                                <div class="number"> {{ colect.evtAvg[1] }} </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
+                        <div class="info-box bg-red">
+                            <div class="content" align="center">
+                                <div class="text">ACTIVITY AVERAGE</div>
+                                <div class="number"> {{ colect.activAvg[1] }} </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
+                        <div class="info-box bg-red" align="center">
+                            <div class="content">
+                                <div class="text">TIME AVERAGE</div>
+                                <div class="number"> -- </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div id="heatmap2" class="heatmap2"></div>
+                </div>
                 {% endif %}
             </div>
         </div>
@@ -328,6 +314,16 @@
     <script src="../static/plugins/node-waves/waves.js"></script>
     <script src="../static/admin.js"></script>
     <script src="../static/plugins/forms/basic-form-elements.js"></script>
+
+    <script src = 'https://cdn.plot.ly/plotly-latest.min.js'> </script>
+    <script type = 'text/javascript'>
+      var graphs = {{colect.heatmaps[0] | safe}};
+      Plotly.plot ('heatmap1', graphs, {});
+
+      var graphs2 = {{colect.heatmaps[1] | safe}};
+      Plotly.plot ('heatmap2', graphs2, {});
+    </script>
+
 
 
     <script>
