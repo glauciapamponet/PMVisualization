@@ -21,21 +21,23 @@ def count_var(activ, df_var):
 def get_metrics(obj, c1, index):
     result = default.pdirectory[default.datafilter['arq']].copy()
 
-    # ACT AVG
+    # ACTIVITIES MIN, AVG, MAX
     res = result[result.cluster.isin(c1)]
     res['countAct'] = res['Sequence'].apply(lambda x: len(set(x.split(' '))))
-    obj.activAvg[index] = int(res['countAct'].mean())
+    obj.activ[index] = {'min': res['countAct'].min(), 'avg': "{:.1f}".format(res['countAct'].mean()), 'max': res['countAct'].max()}
 
     # COUNT VARIANTS
     obj.varCount[index] = int(pd.DataFrame(res['Sequence'].explode().dropna().drop_duplicates()).count())
 
     # EVENTS AVG
     res['evnts'] = res['Sequence'].apply(lambda x: len(x.split(' ')))
-    obj.evtAvg[index] = int(res['evnts'].mean())
+    obj.evt[index] = {'min': res['evnts'].min(), 'avg': "{:.1f}".format(res['evnts'].mean()), 'max': res['evnts'].max()}
 
-    obj.totalCases[index] = int(res.shape[0])  # Total Cases
+    # Total Cases
+    obj.totalCases[index] = int(res.shape[0])
 
-    obj.totalEvnts[index] = int(res['evnts'].sum())  # Total Events
+    # Total Events
+    obj.totalEvnts[index] = int(res['evnts'].sum())
 
 
 def heat(obj, cl, index):
@@ -56,9 +58,11 @@ def heat(obj, cl, index):
     list_clusters = total_var_activs.columns.tolist()[1:]
 
     df = pd.DataFrame({str(i): total_var_activs[i].tolist() for i in list_clusters}, index=list_activs)
-    fig = px.imshow(df, labels={'x': 'Cluster', 'y': 'Activity', 'z': 'Total Variants'}, x=list_clusters, y=list_activs,
+    print(df)
+    print(df.transpose())
+    fig = px.imshow(df.transpose(), labels={'x': 'Cluster', 'y': 'Activity', 'z': 'Total Variants'}, x=list_activs, y=list_clusters,
                     color_continuous_scale='blues')
-    fig.update_layout(xaxis={'type': 'category'}, yaxis_nticks=len(list_activs), xaxis_nticks=len(list_clusters))
+    fig.update_layout(xaxis={'type': 'category'}, yaxis_nticks=len(list_clusters), xaxis_nticks=len(list_activs))
     fig.update_xaxes(side="top")
 
     obj.heatmaps[index] = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)

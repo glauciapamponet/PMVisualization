@@ -124,61 +124,8 @@
 
     <section class="content" style="margin-top: 90px;">
         <div class="container-fluid">
-        <div class="row clearfix" >
-            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-
-                {% if colect.imageboost %}
-                    <div class="card" style="margin-bottom:5px;">
-                     <div class="header bg-black" style="padding-top: 15px; padding-bottom: 15px;" align="center">
-                         <h2><strong>CLUSTER {{ c1 }}</strong></h2>
-                    </div>
-                        <div class="body" style="padding: 15px;">
-                            <div  class="" align="center"><img src="../static/graphs/g1.png" alt="" width='75%'> </div>
-                        </div>
-                    </div>
-                {% endif %}
-
-            </div>
-            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-
-                {% if colect.imageboost %}
-                    <div class="card" style="margin-bottom:5px;">
-                    <div class="header bg-black" style="padding-top: 15px; padding-bottom: 15px;" align="center">
-                        <h2><strong>CLUSTER {{ c2 }}</strong></h2>
-                    </div>
-                        <div class="body" style="padding: 15px;">
-                            <div  class="" align="center"><img src="../static/graphs/g2.png" alt="" width='75%'> </div>
-                        </div>
-                    </div>
-                {% endif %}
-            </div>
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                {% if colect.imageboost %}
-                    <div class="card">
-                        <div class="body" style="padding: 15px;">
-                            <div class="sub row" align="center" style="">
-                                {% for i in colect.vsub_c1.keys() %}
-                                    {% if i in colect.diffclus['g1'] %}
-                                        <div class="col-md-2" style="margin-bottom: 2px; word-wrap: break-word; padding:0px 10px; color: #f0a202" align="left">
-                                    {% elif i in colect.diffclus['g2'] %}
-                                        <div class="col-md-2" style="margin-bottom: 2px; word-wrap: break-word; padding:0px 10px; color: #f27cc9" align="left">
-                                    {% else %}
-                                        <div class="col-md-2" style="margin-bottom: 2px; word-wrap: break-word; padding:0px 10px;" align="left">
-                                    {% endif %}
-                                           <strong>{{ i }}:</strong>{{ colect.vsub_c1[i] }}
-                                        </div>
-                                {% endfor %}
-                                        </div>
-                                        </div>
-                            </div>
-                        </div>
-                    </div>
-                {% endif %}
-            </div>
-        </div>
-        <div class="row clearfix">
-            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6" style="padding-left: 30px;">
-                {% if colect.graphothers %}
+            <div class="row clearfix">
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                     <div class="card" style="margin-bottom:5px;">
                          <div class="header bg-black" style="padding: 15px;" align="center">
                              <h2><strong>CLUSTER {{ c1 }}</strong></h2>
@@ -209,102 +156,212 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="col-lg-3 col-md-2 col-sm-6 col-xs-12">
+                            <div class="info-box bg-red" align="center">
+                                <div style="padding-top: 7px;">EVENTS/CASE</div>
+                                <div style="display: flex; justify-content: center;">
+                                   <div class="content contentduo">
+                                        <div class="text" style="font-size: 10px;">MIN</div>
+                                        <div class="number"> {{ colect.evt[0]['min'] }} </div>
+                                    </div>
+                                    <div class="content contentduo">
+                                        <div class="text" style="font-size: 10px;">AVG</div>
+                                        <div class="number"> {{ colect.evt[0]['avg'] }} </div>
+                                    </div>
+                                    <div class="content contentduo">
+                                        <div class="text" style="font-size: 10px;">MAX</div>
+                                        <div class="number"> {{ colect.evt[0]['max'] }} </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-2 col-sm-6 col-xs-12">
+                            <div class="info-box bg-red" align="center">
+                                <div style="padding-top: 7px;">ACTIVITIES/CASE</div>
+                                <div style="display: flex; justify-content: center;">
+                                   <div class="content contentduo">
+                                        <div class="text" style="font-size: 10px;">MIN</div>
+                                        <div class="number"> {{ colect.activ[0]['min'] }} </div>
+                                    </div>
+                                    <div class="content contentduo">
+                                        <div class="text" style="font-size: 10px;">AVG</div>
+                                        <div class="number"> {{ colect.activ[0]['avg'] }} </div>
+                                    </div>
+                                    <div class="content contentduo">
+                                        <div class="text" style="font-size: 10px;">MAX</div>
+                                        <div class="number"> {{ colect.activ[0]['max'] }} </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+<!--                        <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">-->
+<!--                            <div class="info-box bg-red" align="center">-->
+<!--                                <div class="content">-->
+<!--                                    <div class="text">TIME AVERAGE</div>-->
+<!--                                    <div class="number"> &#45;&#45; </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                        <div class="card" style="margin-bottom:5px;">
+                             <div class="header bg-black" style="padding: 15px;" align="center">
+                                 <h2><strong>CLUSTER {{ c2 }}</strong></h2>
+                             </div>
+                        </div>
+                    <div class="row">
                         <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
                             <div class="info-box bg-red" align="center">
                                 <div class="content">
-                                    <div class="text">EVENTS AVERAGE</div>
-                                    <div class="number"> {{ colect.evtAvg[0] }} </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
-                            <div class="info-box bg-red">
-                                <div class="content" align="center">
-                                    <div class="text">ACTIVITY AVERAGE</div>
-                                    <div class="number"> {{ colect.activAvg[0] }} </div>
+                                    <div class="text">TOTAL EVENTS</div>
+                                    <div class="number"> {{ colect.totalEvnts[1] }} </div>
                                 </div>
                             </div>
                         </div>
                         <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
                             <div class="info-box bg-red" align="center">
                                 <div class="content">
-                                    <div class="text">TIME AVERAGE</div>
-                                    <div class="number"> -- </div>
+                                    <div class="text">TOTAL CASES</div>
+                                    <div class="number"> {{ colect.totalCases[1] }} </div>
                                 </div>
                             </div>
                         </div>
+                        <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
+                            <div class="info-box bg-red" align="center">
+                                <div class="content">
+                                    <div class="text">TOTAL VARIANTS</div>
+                                    <div class="number"> {{ colect.varCount[1] }} </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-2 col-sm-6 col-xs-12">
+                                <div class="info-box bg-red" align="center">
+                                    <div style="padding-top: 7px;">EVENTS/CASE</div>
+                                    <div style="display: flex; justify-content: center;">
+                                       <div class="content contentduo">
+                                            <div class="text" style="font-size: 10px;">MIN</div>
+                                            <div class="number"> {{ colect.evt[1]['min'] }} </div>
+                                        </div>
+                                        <div class="content contentduo">
+                                            <div class="text" style="font-size: 10px;">AVG</div>
+                                            <div class="number"> {{ colect.evt[1]['avg'] }} </div>
+                                        </div>
+                                        <div class="content contentduo">
+                                            <div class="text" style="font-size: 10px;">MAX</div>
+                                            <div class="number"> {{ colect.evt[1]['max'] }} </div>
+                                        </div>
+                                    </div>
 
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-2 col-sm-6 col-xs-12">
+                                <div class="info-box bg-red" align="center">
+                                    <div style="padding-top: 7px;">ACTIVITIES/CASE</div>
+                                    <div style="display: flex; justify-content: center;">
+                                       <div class="content contentduo">
+                                            <div class="text" style="font-size: 10px;">MIN</div>
+                                            <div class="number"> {{ colect.activ[1]['min'] }} </div>
+                                        </div>
+                                        <div class="content contentduo">
+                                            <div class="text" style="font-size: 10px;">AVG</div>
+                                            <div class="number"> {{ colect.activ[1]['avg'] }} </div>
+                                        </div>
+                                        <div class="content contentduo">
+                                            <div class="text" style="font-size: 10px;">MAX</div>
+                                            <div class="number"> {{ colect.activ[1]['max'] }} </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+<!--                        <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">-->
+<!--                            <div class="info-box bg-red" align="center">-->
+<!--                                <div class="content">-->
+<!--                                    <div class="text">TIME AVERAGE</div>-->
+<!--                                    <div class="number"> &#45;&#45; </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
                     </div>
-                    <div class="card">
-                        <div id="heatmap1" class="heatmap1"></div>
-                    </div>
-
-                {% endif %}
+                </div>
             </div>
-            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6"  style="padding-right: 30px;">
-                {% if colect.graphothers %}
-                    <div class="card" style="margin-bottom:5px;">
-                         <div class="header bg-black" style="padding: 15px;" align="center">
-                             <h2><strong>CLUSTER {{ c2 }}</strong></h2>
-                         </div>
-                    </div>
-                <div class="row">
-                    <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
-                        <div class="info-box bg-red" align="center">
-                            <div class="content">
-                                <div class="text">TOTAL EVENTS</div>
-                                <div class="number"> {{ colect.totalEvnts[1] }} </div>
+            <div class="row clearfix" >
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                    {% if colect.imageboost %}
+                        <div class="card" style="margin-bottom:5px;">
+<!--                         <div class="header bg-black" style="padding-top: 15px; padding-bottom: 15px;" align="center">-->
+<!--                             <h2><strong>CLUSTER {{ c1 }}</strong></h2>-->
+<!--                        </div>-->
+                            <div class="body" style="padding: 15px;">
+                                <div  class="" align="center"><img src="../static/graphs/g1.png" alt="" width='75%'> </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
-                        <div class="info-box bg-red" align="center">
-                            <div class="content">
-                                <div class="text">TOTAL CASES</div>
-                                <div class="number"> {{ colect.totalCases[1] }} </div>
+                    {% endif %}
+
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+
+                    {% if colect.imageboost %}
+                        <div class="card" style="margin-bottom:5px;">
+<!--                        <div class="header bg-black" style="padding-top: 15px; padding-bottom: 15px;" align="center">-->
+<!--                            <h2><strong>CLUSTER {{ c2 }}</strong></h2>-->
+<!--                        </div>-->
+                            <div class="body" style="padding: 15px;">
+                                <div  class="" align="center"><img src="../static/graphs/g2.png" alt="" width='75%'> </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
-                        <div class="info-box bg-red" align="center">
-                            <div class="content">
-                                <div class="text">TOTAL VARIANTS</div>
-                                <div class="number"> {{ colect.varCount[1] }} </div>
+                    {% endif %}
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    {% if colect.imageboost %}
+                        <div class="card">
+                            <div class="body" style="padding: 15px;">
+                                <div class="sub row" align="center" style="">
+                                    {% for i in colect.vsub_c1.keys() %}
+                                        {% if i in colect.diffclus['g1'] %}
+                                            <div class="col-md-2" style="margin-bottom: 2px; word-wrap: break-word; padding:0px 10px; color: #f0a202" align="left">
+                                        {% elif i in colect.diffclus['g2'] %}
+                                            <div class="col-md-2" style="margin-bottom: 2px; word-wrap: break-word; padding:0px 10px; color: #f27cc9" align="left">
+                                        {% else %}
+                                            <div class="col-md-2" style="margin-bottom: 2px; word-wrap: break-word; padding:0px 10px;" align="left">
+                                        {% endif %}
+                                               <strong>{{ i }}:</strong>{{ colect.vsub_c1[i] }}
+                                            </div>
+                                    {% endfor %}
+                                            </div>
+                                            </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
-                        <div class="info-box bg-red" align="center">
-                            <div class="content">
-                                <div class="text">EVENTS AVERAGE</div>
-                                <div class="number"> {{ colect.evtAvg[1] }} </div>
-                            </div>
+                    {% endif %}
+                </div>
+            </div>
+            {% if colect.graphothers %}
+                <div class="row clearfix">
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                        <div class="card">
+                            {% if colect.imageboost %}
+                                <div class="header bg-black" style="padding-top: 15px; padding-bottom: 15px;" align="center">
+                                     <h2><strong>CLUSTER {{ c1 }}</strong></h2>
+                                </div>
+                            {% endif %}
+                            <div id="heatmap1" class="heatmap1"></div>
                         </div>
                     </div>
-                    <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
-                        <div class="info-box bg-red">
-                            <div class="content" align="center">
-                                <div class="text">ACTIVITY AVERAGE</div>
-                                <div class="number"> {{ colect.activAvg[1] }} </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
-                        <div class="info-box bg-red" align="center">
-                            <div class="content">
-                                <div class="text">TIME AVERAGE</div>
-                                <div class="number"> -- </div>
-                            </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                        <div class="card">
+                            {% if colect.imageboost %}
+                                <div class="header bg-black" style="padding-top: 15px; padding-bottom: 15px;" align="center">
+                                     <h2><strong>CLUSTER {{ c2 }}</strong></h2>
+                                </div>
+                            {% endif %}
+                            <div id="heatmap2" class="heatmap2"></div>
                         </div>
                     </div>
                 </div>
-                <div class="card">
-                    <div id="heatmap2" class="heatmap2"></div>
-                </div>
-                {% endif %}
-            </div>
+            {% endif %}
         </div>
-    </div>
 
     </section>
     <script src="../static/plugins/infobox/infobox-2.js"></script>

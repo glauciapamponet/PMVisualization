@@ -48,35 +48,40 @@ def test():
         except:
             colect.c1 = [(val) for val in set(filterchoice.combobx.data)]
             colect.c2 = [(val) for val in set(filterchoice.combobx2.data)]
-        if filterchoice.checkbxgraph.data:  # exibindo grafos
-            # if -1 in c1 or -1 in c2: # desativar os combos temporariamente
-            colect.imageboost = True
-            if filterchoice.radialcircle.data == 'activ':  # exibindo atividades
-                try:
-                    colect.vsub_c1, colect.diffclus['g1'] = gc.createimgativs(colect.c1, colect.c2, "g1")
-                    _, colect.diffclus['g2'] = gc.createimgativs(colect.c2, colect.c1, "g2")
-                except Exception as e:
-                    print("OLHA O ERRO: ", e)
-                    colect.imageboost = False
-            else:  # exibindo transições
-                try:
-                    colect.vsub_c1 = gc.createimgtrans(colect.c1, colect.c2, "g1")
-                    _ = gc.createimgtrans(colect.c2, colect.c1, "g2")
-                except Exception as e:
-                    print("OLHA O ERRO: ", e)
-                    colect.imageboost = False
-        if filterchoice.checkbxother.data:  # exibindo other
-            colect.graphothers = True
+        if not(any(item in colect.c1 for item in colect.c2)):
             try:
                 dsb.get_metrics(colect, colect.c1, 0)
                 dsb.get_metrics(colect, colect.c2, 1)
-                dsb.heat(colect, colect.c1, 0)
-                dsb.heat(colect, colect.c2, 1)
             except Exception as e:
-                print("ERRO: ", e)
-                colect.graphothers = False
-
-        filterchoice.updatecombo(datafilter['cbxlist'])  # para combobox que nao está funcionando
+                print("Erro: ", e)
+            if filterchoice.checkbxgraph.data:  # exibindo grafos
+                # if -1 in c1 or -1 in c2: # desativar os combos temporariamente
+                colect.imageboost = True
+                if filterchoice.radialcircle.data == 'activ':  # exibindo atividades
+                    try:
+                        colect.vsub_c1, colect.diffclus['g1'] = gc.createimgativs(colect.c1, colect.c2, "g1")
+                        _, colect.diffclus['g2'] = gc.createimgativs(colect.c2, colect.c1, "g2")
+                    except Exception as e:
+                        print("OLHA O ERRO: ", e)
+                        colect.imageboost = False
+                else:  # exibindo transições
+                    try:
+                        colect.vsub_c1 = gc.createimgtrans(colect.c1, colect.c2, "g1")
+                        _ = gc.createimgtrans(colect.c2, colect.c1, "g2")
+                    except Exception as e:
+                        print("OLHA O ERRO: ", e)
+                        colect.imageboost = False
+            if filterchoice.checkbxother.data:  # exibindo other
+                colect.graphothers = True
+                try:
+                    dsb.heat(colect, colect.c1, 0)
+                    dsb.heat(colect, colect.c2, 1)
+                except Exception as e:
+                    print("ERRO: ", e)
+                    colect.graphothers = False
+            filterchoice.updatecombo(datafilter['cbxlist'])  # para combobox que nao está funcionando
+        else:
+            colect = FilterColect()
     else:
         print(filterchoice.errors)
         if len(datafilter['arq']) == 0: umcsv.filename = 'No file chosen'
