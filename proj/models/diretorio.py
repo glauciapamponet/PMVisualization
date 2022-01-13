@@ -35,21 +35,20 @@ class ExibitionFilter(FlaskForm):
 
 
 class FilterColect():
-    graphothers = False
-    imgboost = False
-    c1 = []
-    c2 = []
-    diffclus = {'g1': [], 'g2': []}
-    vsub_c1 = {}
-    vsub_c2 = {}
-    activ = [{'min': 0, 'avg': 0, 'max': 0}, {'min': 0, 'avg': 0, 'max': 0}]
-    varCount = [0, 0]
-    evt = [{'min': 0, 'avg': 0, 'max': 0}, {'min': 0, 'avg': 0, 'max': 0}]
-    totalCases = [0, 0]
-    totalEvnts = [0, 0]
-    heatmaps = [None, None]
-
-
+    def __init__(self):
+        self.graphothers = False
+        self.imgboost = False
+        self.c1 = []
+        self.c2 = []
+        self.diffclus = {'g1': [], 'g2': []}
+        self.vsub_c1 = {}
+        self.vsub_c2 = {}
+        self.activ = [{'min': 0, 'avg': 0, 'max': 0}, {'min': 0, 'avg': 0, 'max': 0}]
+        self.varCount = [0, 0]
+        self.evt = [{'min': 0, 'avg': 0, 'max': 0}, {'min': 0, 'avg': 0, 'max': 0}]
+        self.totalCases = [0, 0]
+        self.totalEvnts = [0, 0]
+        self.heatmaps = [None, None]
 
     def empty_diffs(self):
         self.diffclus['g1'] = []

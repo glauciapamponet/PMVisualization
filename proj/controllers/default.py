@@ -36,8 +36,8 @@ def test():
                     pdirectory[str(file.filename)] = pd.read_csv(file)
                     datafilter['arq'] = str(file.filename)
                 datafilter['cbxlist'] = listcluster(datafilter['arq'])
+                colect = FilterColect()
                 umcsv.filename = datafilter['arq']
-            # print(umcsv.filename)
             filterchoice.updatecombo(datafilter['cbxlist'])  # para combobox que não está funcionando
     if filterchoice.validate_on_submit() and len(datafilter['arq']) > 0:
         colect.empty_diffs()
@@ -74,8 +74,8 @@ def test():
             if filterchoice.checkbxother.data:  # exibindo other
                 colect.graphothers = True
                 try:
-                    dsb.heat(colect, colect.c1, 0)
-                    dsb.heat(colect, colect.c2, 1)
+                    dsb.heat_activs(colect, colect.c1, 0)
+                    dsb.heat_activs(colect, colect.c2, 1)
                 except Exception as e:
                     print("ERRO: ", e)
                     colect.graphothers = False

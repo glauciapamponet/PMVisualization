@@ -3,7 +3,8 @@ import pandas as pd
 import plotly
 import plotly.express as px
 
-from proj.controllers import default
+from proj.controllers.default import pdirectory, datafilter
+from proj.controllers.graphsconstr import get_vertices, get_edges
 
 
 def get_activs(df, seq_df_colname='Sequence'):
@@ -19,7 +20,7 @@ def count_var(activ, df_var):
 # TEventos> TCases > TVariants > AVG Ev > AVG Act > AVG Time
 
 def get_metrics(obj, c1, index):
-    result = default.pdirectory[default.datafilter['arq']].copy()
+    result = pdirectory[datafilter['arq']].copy()
 
     # ACTIVITIES MIN, AVG, MAX
     res = result[result.cluster.isin(c1)]
@@ -40,8 +41,8 @@ def get_metrics(obj, c1, index):
     obj.totalEvnts[index] = int(res['evnts'].sum())
 
 
-def heat(obj, cl, index):
-    result = default.pdirectory[default.datafilter['arq']].copy()
+def heat_activs(obj, cl, index):
+    result = pdirectory[datafilter['arq']].copy()
 
     r1 = result[result.cluster.isin(cl)]
     r1['act seq'] = r1['Sequence'].apply(lambda x: x.split(' '))
@@ -66,3 +67,10 @@ def heat(obj, cl, index):
     fig.update_xaxes(side="top")
 
     obj.heatmaps[index] = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
+
+def heat_trans(obj, cl, index):
+    result = pdirectory[datafilter['arq']].copy()
+    result['Sequence'] = result['Sequence'].apply(lambda x: 'Start_Process ' + x + ' End_Process')
+    vertices, verts = get_vertices(result)
+    edges_labels, edges_ids = get_edges(result[result.cluster.isin(cl)], verts, vertices)
+    edlog_labels, _ = get_edges(result, verts, vertices)
