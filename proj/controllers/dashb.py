@@ -3,36 +3,50 @@ import pandas as pd
 import plotly
 import plotly.express as px
 
-from proj.controllers.default import pdirectory, datafilter
-from proj.controllers.graphsconstr import get_vertices, get_edges
+from proj.controllers import default as dft
+from proj.controllers.graphsconstr import get_vertices, get_key
+
+def choice_view(obj, wrd_choice):
+    if wrd_choice == 'activ':
+        heat_activs(obj, obj.c1, 0)
+        heat_activs(obj, obj.c2, 1)
+    elif wrd_choice == 'trans':
+        heat_trans(obj, obj.c1, 0)
+        heat_trans(obj, obj.c2, 1)
 
 
-def get_activs(df, seq_df_colname='Sequence'):
-    df['act seq'] = df[seq_df_colname].apply(lambda x: x.split(' '))
-    activs = [i[1] for i in enumerate(df['act seq'].explode().dropna().drop_duplicates())]
-    return activs
+def get_log():
+    result = dft.pdirectory[dft.datafilter['arq']].copy()
+    result['Sequence'] = result['Sequence'].apply(lambda x: 'Start_Process ' + x + ' End_Process')
+    # result = result.drop_duplicates(subject='Sequence') # para mudar para visu por case
+    vertices, verts = get_vertices(result)
+    vert_dict = {vertices[i]: verts[i] for i in vertices.keys()}  # abreviação: nome
+    return result, vert_dict
 
 
-def count_var(activ, df_var):
-    return len([line for line in df_var['Sequence'] if activ in line])
+def count_freq(item, df):
+    return len([line for line in df if item in line])
 
 
 # TEventos> TCases > TVariants > AVG Ev > AVG Act > AVG Time
-
 def get_metrics(obj, c1, index):
-    result = pdirectory[datafilter['arq']].copy()
+    result = dft.pdirectory[dft.datafilter['arq']].copy()
 
     # ACTIVITIES MIN, AVG, MAX
     res = result[result.cluster.isin(c1)]
     res['countAct'] = res['Sequence'].apply(lambda x: len(set(x.split(' '))))
-    obj.activ[index] = {'min': res['countAct'].min(), 'avg': "{:.1f}".format(res['countAct'].mean()), 'max': res['countAct'].max()}
+    obj.activ[index] = {'min': res['countAct'].min(),
+                        'avg': "{:.1f}".format(res['countAct'].mean()),
+                        'max': res['countAct'].max()}
 
     # COUNT VARIANTS
     obj.varCount[index] = int(pd.DataFrame(res['Sequence'].explode().dropna().drop_duplicates()).count())
 
     # EVENTS AVG
     res['evnts'] = res['Sequence'].apply(lambda x: len(x.split(' ')))
-    obj.evt[index] = {'min': res['evnts'].min(), 'avg': "{:.1f}".format(res['evnts'].mean()), 'max': res['evnts'].max()}
+    obj.evt[index] = {'min': res['evnts'].min(),
+                      'avg': "{:.1f}".format(res['evnts'].mean()),
+                      'max': res['evnts'].max()}
 
     # Total Cases
     obj.totalCases[index] = int(res.shape[0])
@@ -41,36 +55,61 @@ def get_metrics(obj, c1, index):
     obj.totalEvnts[index] = int(res['evnts'].sum())
 
 
+def get_data(labels, df, clist, columns):
+    dftrans = pd.DataFrame(columns=[columns[0]])
+    dftrans[columns[0]] = labels
+
+    # frequencia por cluster
+    dfheat = pd.DataFrame({str(i): dftrans[columns[0]].apply(
+        lambda x: count_freq(x, df[df.cluster == i][columns[1]])).tolist() for i in clist}, index=labels)
+
+    # frequencia de toda a seleção
+    if len(clist) > 1:
+        dfheat['Selection'] = dftrans[columns[0]].apply(
+            lambda x: count_freq(x, df[df.cluster.isin(clist)][columns[1]])).tolist()
+
+    return dfheat
+
+
 def heat_activs(obj, cl, index):
-    result = pdirectory[datafilter['arq']].copy()
+    result, act_dict = get_log()
+    act_log = sorted(act_dict.keys())
 
-    r1 = result[result.cluster.isin(cl)]
-    r1['act seq'] = r1['Sequence'].apply(lambda x: x.split(' '))
-    r1['transitions'] = r1['act seq'].apply(lambda x: [(x[i - 1], x[i]) for i in range(1, len(x))])
+    df = get_data(act_log, result, cl, ['Activs', 'Sequence'])
+    list_clusters = df.columns.tolist()
 
-    total_var_activs = pd.DataFrame(columns=['Activs'])
-    total_var_activs['Activs'] = get_activs(r1)
-    vartotal = result.drop_duplicates(subset='Sequence')
-    for cluster in cl:
-        total_var_activs[str(cluster)] = total_var_activs['Activs'].apply(
-            lambda x: count_var(x, vartotal[vartotal.cluster == cluster]))
-
-    list_activs = total_var_activs['Activs'].tolist()
-    list_clusters = total_var_activs.columns.tolist()[1:]
-
-    df = pd.DataFrame({str(i): total_var_activs[i].tolist() for i in list_clusters}, index=list_activs)
-    print(df)
-    print(df.transpose())
-    fig = px.imshow(df.transpose(), labels={'x': 'Cluster', 'y': 'Activity', 'z': 'Total Variants'}, x=list_activs, y=list_clusters,
+    fig = px.imshow(df.transpose(), labels={'x': 'Activity', 'y': 'Cluster', 'z': 'Total Variants'}, x=act_log,
+                    y=list_clusters,
                     color_continuous_scale='blues')
-    fig.update_layout(xaxis={'type': 'category'}, yaxis_nticks=len(list_clusters), xaxis_nticks=len(list_activs))
+    fig.update_layout(xaxis={'type': 'category'}, yaxis_nticks=len(list_clusters), xaxis_nticks=len(act_log))
     fig.update_xaxes(side="top")
 
     obj.heatmaps[index] = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
 
+
+def get_transitions(df, dictio):
+    df['transitions'] = df['act seq'].apply(
+        lambda x: [(get_key(x[i - 1], dictio), get_key(x[i], dictio)) for i in range(1, len(x))])
+    labels = list(df['transitions'].explode().dropna().drop_duplicates())
+    return [(i, j) for i, j in labels]
+
+
 def heat_trans(obj, cl, index):
-    result = pdirectory[datafilter['arq']].copy()
-    result['Sequence'] = result['Sequence'].apply(lambda x: 'Start_Process ' + x + ' End_Process')
-    vertices, verts = get_vertices(result)
-    edges_labels, edges_ids = get_edges(result[result.cluster.isin(cl)], verts, vertices)
-    edlog_labels, _ = get_edges(result, verts, vertices)
+    result, vert_dict = get_log()
+
+    # lista de todas as transições possiveis (usa o log para os heatmaps serem iguais)
+    trans_log = sorted(list(set(get_transitions(result, vert_dict))))
+
+    df = get_data(trans_log, result, cl, ['Transitions', 'transitions'])
+    list_clusters = df.columns.tolist()
+
+    fig = px.imshow(df.transpose(), labels={'x': 'Transition', 'y': 'Cluster', 'z': 'Total Variants'},
+                    x=[str(i[0]) + "," + str(i[1]) for i in trans_log],
+                    y=list_clusters, color_continuous_scale='blues')
+    fig.update_layout(xaxis={'type': 'category'}, yaxis_nticks=len(list_clusters), xaxis_nticks=len(trans_log))
+    fig.update_xaxes(side="top", autorange=False, constrain="range")
+    print("3")
+    obj.heatmaps[index] = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
+
+# terminar de montar o heatmap, consertar o count_var() que nao vai dar pra usar em trans
+# ver a questão de visualização de cases vs variantes (o que precisa mudar??)

@@ -327,7 +327,7 @@
                     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                         <div class="card">
                             {% if colect.imageboost %}
-                                <div class="header bg-black" style="padding-top: 15px; padding-bottom: 15px; overflow-x: scroll; white-space: nowrap;" align="center">
+                                <div class="header bg-black" style="padding-top: 15px; padding-bottom: 15px; /*overflow-x: scroll*/; white-space: nowrap;" align="center">
                                      <h2><strong>CLUSTER {{ c1 }}</strong></h2><!--overflow: auto -->
                                 </div>
                             {% endif %}
@@ -341,7 +341,7 @@
                                      <h2><strong>CLUSTER {{ c2 }}</strong></h2>
                                 </div>
                             {% endif %}
-                            <div id="heatmap2" class="heatmap2" style="overflow: hidden"></div>
+                            <div id="heatmap2" class="heatmap2" style="overflow: hidden;"></div>
                         </div>
                     </div>
                 </div>

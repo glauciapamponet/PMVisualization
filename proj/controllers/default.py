@@ -74,8 +74,7 @@ def test():
             if filterchoice.checkbxother.data:  # exibindo other
                 colect.graphothers = True
                 try:
-                    dsb.heat_activs(colect, colect.c1, 0)
-                    dsb.heat_activs(colect, colect.c2, 1)
+                    dsb.choice_view(colect, filterchoice.radialcircle.data)
                 except Exception as e:
                     print("ERRO: ", e)
                     colect.graphothers = False

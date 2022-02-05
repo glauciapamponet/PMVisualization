@@ -31,9 +31,10 @@ def get_vertices(df, seq_df_colname='Sequence'):
 def get_edges(df, verts, vertices):
     df['transitions'] = df['act seq'].apply(lambda x: [(x[i - 1], x[i]) for i in range(1, len(x))])
     labels = list(df['transitions'].explode().dropna().drop_duplicates())
-    print(labels)
+
     edges_ids = [(get_key(i, verts), get_key(j, verts)) for i, j in labels]
     edges_labels = [(vertices[get_key(i, verts)], vertices[get_key(j, verts)]) for i, j in labels]
+    #print(labels)
 
     return edges_labels, edges_ids
 
@@ -84,7 +85,7 @@ def view_config(g, vertices, edges_ids):
             bigger = a[1]
     laylist[get_key('END', vertices)][1] = bigger + 1.0
     layout = laylist
-    print(laylist)
+    #print(laylist)
     # (17, 3), (3, 4), (4, 7), (7, 5), (5, 10), (10, 9), (9, 2), (2, 1), (1, 1), (1, 2), (2, 9), (9, 10), (10, 11),
     # (11, 16), (16, 6), (3, 5), (5, 4), (4, 8)
 
@@ -96,7 +97,7 @@ def createimgtrans(c1, c2, nome):
     result['Sequence'] = result['Sequence'].apply(lambda x: 'Start_Process ' + x + ' End_Process')
     vertices, verts = get_vertices(result)
 
-    print(vertices)
+    #print(vertices)
     edges_labels, edges_ids = get_edges(result[result.cluster.isin(c1)], verts, vertices)
     _, edges_ids2 = get_edges(result[result.cluster.isin(c2)], verts, vertices)
     diffes = list(set(edges_ids) - set(edges_ids2))  # recebendo as diferenças do que tem em c1 e não em c2.
