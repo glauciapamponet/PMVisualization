@@ -16,7 +16,7 @@ def choice_view(obj, wrd_choice):
 
 
 def get_log():
-    result = dft.pdirectory[dft.datafilter['arq']].copy()
+    result = dft.pdirectory[0].copy()
     result['Sequence'] = result['Sequence'].apply(lambda x: 'Start_Process ' + x + ' End_Process')
     # result = result.drop_duplicates(subject='Sequence') # para mudar para visu por case
     vertices, verts = get_vertices(result)
@@ -30,7 +30,7 @@ def count_freq(item, df):
 
 # TEventos> TCases > TVariants > AVG Ev > AVG Act > AVG Time
 def get_metrics(obj, c1, index):
-    result = dft.pdirectory[dft.datafilter['arq']].copy()
+    result = dft.pdirectory[0].copy()
 
     # ACTIVITIES MIN, AVG, MAX
     res = result[result.cluster.isin(c1)]
@@ -83,7 +83,6 @@ def heat_activs(obj, cl, index):
                     color_continuous_scale='blues')
     fig.update_layout(xaxis={'type': 'category'}, yaxis_nticks=len(list_clusters), xaxis_nticks=len(act_log))
     fig.update_xaxes(side="top")
-
     obj.heatmaps[index] = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
 
 
@@ -108,7 +107,6 @@ def heat_trans(obj, cl, index):
                     y=list_clusters, color_continuous_scale='blues')
     fig.update_layout(xaxis={'type': 'category'}, yaxis_nticks=len(list_clusters), xaxis_nticks=len(trans_log))
     fig.update_xaxes(side="top", autorange=False, constrain="range")
-    print("3")
     obj.heatmaps[index] = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
 
 # terminar de montar o heatmap, consertar o count_var() que nao vai dar pra usar em trans
