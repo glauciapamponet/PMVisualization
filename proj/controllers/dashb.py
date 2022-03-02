@@ -6,6 +6,7 @@ import plotly.express as px
 from proj.controllers import default as dft
 from proj.controllers.graphsconstr import get_vertices, get_key
 
+
 def choice_view(obj, wrd_choice):
     if wrd_choice == 'activ':
         heat_activs(obj, obj.c1, 0)
@@ -22,6 +23,14 @@ def get_log():
     vertices, verts = get_vertices(result)
     vert_dict = {vertices[i]: verts[i] for i in vertices.keys()}  # abreviação: nome
     return result, vert_dict
+
+
+def get_datalog():
+    res, vdict = get_log()
+    variants = int(pd.DataFrame(res['Sequence'].explode().dropna().drop_duplicates()).count())
+    cases = int(res.shape[0])
+    act = len(vdict.keys())
+    return vdict, {'v': variants, 'c': cases, 'a': act}
 
 
 def count_freq(item, df):
@@ -79,8 +88,7 @@ def heat_activs(obj, cl, index):
     list_clusters = df.columns.tolist()
 
     fig = px.imshow(df.transpose(), labels={'x': 'Activity', 'y': 'Cluster', 'z': 'Total Variants'}, x=act_log,
-                    y=list_clusters,
-                    color_continuous_scale='blues')
+                    y=list_clusters, width=700, height=450, color_continuous_scale='blues')
     fig.update_layout(xaxis={'type': 'category'}, yaxis_nticks=len(list_clusters), xaxis_nticks=len(act_log))
     fig.update_xaxes(side="top")
     obj.heatmaps[index] = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
@@ -104,7 +112,7 @@ def heat_trans(obj, cl, index):
 
     fig = px.imshow(df.transpose(), labels={'x': 'Transition', 'y': 'Cluster', 'z': 'Total Variants'},
                     x=[str(i[0]) + "," + str(i[1]) for i in trans_log],
-                    y=list_clusters, color_continuous_scale='blues')
+                    y=list_clusters, color_continuous_scale='blues', width=700, height=450)
     fig.update_layout(xaxis={'type': 'category'}, yaxis_nticks=len(list_clusters), xaxis_nticks=len(trans_log))
     fig.update_xaxes(side="top", autorange=False, constrain="range")
     obj.heatmaps[index] = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)

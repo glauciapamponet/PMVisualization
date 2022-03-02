@@ -32,97 +32,380 @@
             border-radius: 10px solid black
             margin-top:10px;
         }
-        .padear{
-            padding: 0px 10px;
+        .name-arch{
+            width:max-content;
+            display:inline-flex;
+
+            justify-content: center;
+            align-items: center;
+                    }
+                    .padear{
+                        padding: 0px 10px;
+                    }
+        .listchck{
+            padding: 15px 0px;
+            position: relative;
+            border-top: 1px solid #eee;
+        }
+            .listchck span{
+                padding-right: 60px;
+            }
+
+        .combo{
+            padding-bottom: 10px;
+        }
+        .text-dec{
+            padding: 10px 0px;
+            text-overflow: ellipsis;
+            font-size: 17px;
+            color: white;
+        }
+        .filetag{
+            border: 1px solid black;
+            text-align: center;
+            padding: 6px 7px;
+            float: left;
+            width: 220px;
+            height: 37px;
+            margin-left: -1px;
+            text-overflow: ellipsis;
         }
 
     </style>
 
 </head>
 
-<body>
-    <nav class="navbar" style="background-color: white; display: inline-block;">
+<body class="theme-black ls-closed">
+<!--    <nav class="navbar" style="background-color: white; display: inline-block;">-->
 <!--        <div  style="background-color: #000;">-->
 <!--            <div style="min-height: 15px;"></div>-->
 <!--        </div>-->
-        <div class="card-navbar-down">
-          <div class="row clearfix" style="margin-botton: 0px;">
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" >
-                <div class="col-xs-12 col-sm-2 col-md-3 col-lg-3 col-xl-3 custom-file" style="padding: 15px;">
+<!--        <div class="card-navbar-down">-->
+<!--          <div class="row clearfix" style="margin-botton: 0px;">-->
+<!--            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" >-->
+<!--                <div class="col-xs-12 col-sm-2 col-md-3 col-lg-3 col-xl-3 custom-file" style="padding: 15px;">-->
+<!--                    <form method="POST"  enctype="multipart/form-data">-->
+<!--                        <div class="row" style="margin-left: 10px;">-->
+<!--                            {{ umcsv.csrf_token }}-->
+<!--                            {{ umcsv.entry(id="actual-btn", onchange="form.submit()", style="display: none;") }}-->
+<!--                            &lt;!&ndash; our custom upload button &ndash;&gt;-->
+<!--                            <label for="actual-btn" class="btn bg-black"><i class="material-icons">publish</i></label>-->
+<!--                            &lt;!&ndash; name of file chosen &ndash;&gt;-->
+<!--                            {% if umcsv.filename != 'No file chosen' %}-->
+<!--                                <span id="file-chosen"  style="margin-left: 15px;"><strong>File: </strong>{{ umcsv.filename }}</span>-->
+<!--                            {% else %}-->
+<!--                                <span id="file-chosen"  style="margin-left: 15px;">{{ umcsv.filename }}</span>-->
+<!--                            {% endif %}-->
+<!--                        </div>-->
+<!--                    </form>-->
+<!--                </div>-->
+<!--                <div class="col-xs-12 col-sm-6 col-md-5 col-lg-9 col-xl-9 body" style="padding: 15px 15px 0px 15px;">-->
+<!--                    <form class=""  method="POST" enctype="multipart/form-data">-->
+<!--                        <div class="" style="margin: 0px margin-botton: 0px; ">-->
+<!--                          <div  align="center">-->
+<!--&lt;!&ndash;                            <div class="col-md-1"></div>&ndash;&gt;-->
+<!--                            <div class="col-md-2 legenda" >-->
+<!--                                <label>Clusters</label>-->
+<!--                                <div class="row" style="padding-bottom: 3px;">-->
+<!--                                    {{ filterchoice.csrf_token }}-->
+<!--                                    <div class="col-md-6" style="padding: 0px; width: 70px; margin-left: 15px;">-->
+<!--                                        {{ filterchoice.combobx(class="form-control show-tick", style="width: 60px; height: 20px;") }}-->
+<!--                                    </div>-->
+<!--                                    <div class="col-md-6" style="padding: 0px; width: 70px; margin-left: 20px;">-->
+<!--                                        {{ filterchoice.combobx2(class="form-control show-tick", style="width: 60px; height: 20px;") }}-->
+<!--                                    </div>-->
+<!--                                </div>-->
+
+<!--                            </div>-->
+
+<!--                            <div class="col-md-2 legenda" style="margin-left: 20px;">-->
+<!--                              <label>Type</label>-->
+<!--                              <div class="form-check form-check-inline" style="margin-top: -4px;">-->
+<!--                                  {{ filterchoice.checkbxgraph(class="filled-in chk-col-black") }}-->
+<!--                                  <label class="form-check-label" style="margin:0px;">Graphs</label>-->
+<!--                                  {{ filterchoice.checkbxother() }}-->
+<!--                                  <label class="form-check-label" style="margin:0px;">Others</label>-->
+<!--                              </div>-->
+<!--                            </div>-->
+
+<!--                            <div class="col-md-3 legenda" style="margin-left: 20px;">-->
+<!--                                <label>Visualisation</label>-->
+<!--                              <div class="form-check form-check-inline" style="margin-top: -2px;">-->
+<!--        &lt;!&ndash;                      {{ filterchoice.hidden_tag() }}&ndash;&gt;-->
+<!--                                  {% for subfield in filterchoice.radialcircle %}-->
+<!--                                    {{ subfield(class="with-gap radio-col-black") }}-->
+<!--                                    {{ subfield.label(style="margin:0px;") }}-->
+<!--                                  {% endfor %}-->
+<!--        &lt;!&ndash;                      {{ filterchoice.radialcircle(style="list-style: none; padding-left: 0px; margin-top: -15px;") }}&ndash;&gt;-->
+<!--                              </div>-->
+<!--                            </div>-->
+<!--                              <div class="col-md-1"></div>-->
+<!--                            <div class="col-md-1" style="margin-left: 150px;">-->
+
+<!--                            </div>-->
+<!--&lt;!&ndash;                            <div class="col-md-1">&ndash;&gt;-->
+<!--                                {{ filterchoice.submit(class="btn bg-black left", style="width: 80px; height: 40px; margin-top: 0px; padding: 0;") }}-->
+<!--        &lt;!&ndash;                      <button type="submit" name="button" class="btn bg-black" style="width: 80px; height: 40px; margin-top: -10px; padding: 0;"><h5>OK</h5> </button>&ndash;&gt;-->
+<!--&lt;!&ndash;                            </div>&ndash;&gt;-->
+<!--                          </div>-->
+<!--                        </div>-->
+<!--                    </form>-->
+<!--                </div>-->
+
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--    </nav>-->
+        <nav class="navbar" >
+        <div class="container-fluid" style="display: flex; justify-content: space-between;">
+            <div class="navbar-header">
+                <a href="javascript:void(0);" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false"></a>
+                <a href="javascript:void(0);" class="bars"></a>
+            </div>
+            <div class="text-dec">
+                {% if umcsv.filename != 'No file chosen' %}
+                    <span id="file-chosen"  style="margin-left: 15px;"><strong>{{ umcsv.filename }}</strong></span>
+                {% else %}
+                    <span id="file-chosen"  style="margin-left: 15px;">{{ umcsv.filename }}</span>
+                {% endif %}
+            </div>
+            <div class="collapse navbar-collapse" id="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="pull-right"><a href="javascript:void(0);" class="js-right-sidebar" data-close="true"><i class="material-icons">more_vert</i></a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <aside id="leftsidebar" class="sidebar">
+            <!-- User Info -->
+            <div class="user-info">
+                <div>
                     <form method="POST"  enctype="multipart/form-data">
-                        <div class="row" style="margin-left: 10px;">
-                            {{ umcsv.csrf_token }}
-                            {{ umcsv.entry(id="actual-btn", onchange="form.submit()", style="display: none;") }}
-                            <!-- our custom upload button -->
-                            <label for="actual-btn" class="btn bg-black"><i class="material-icons">publish</i></label>
-                            <!-- name of file chosen -->
+                        {{ umcsv.csrf_token }}
+                        {{ umcsv.entry(id="actual-btn", onchange="form.submit()", style="display: none;") }}
+                        <!-- our custom upload button -->
+                        <label style="float: left;" for="actual-btn" class="btn bg-black"><i class="material-icons">publish</i></label>
+                        <!-- name of file chosen -->
+                        <div class="filetag">
                             {% if umcsv.filename != 'No file chosen' %}
-                                <span id="file-chosen"  style="margin-left: 15px;"><strong>File: </strong>{{ umcsv.filename }}</span>
+                            <span id="file-chosen" ><strong>{{ umcsv.filename }}</strong></span>
                             {% else %}
-                                <span id="file-chosen"  style="margin-left: 15px;">{{ umcsv.filename }}</span>
+                                <span id="file-chosen" >{{ umcsv.filename }}</span>
                             {% endif %}
                         </div>
                     </form>
                 </div>
-                <div class="col-xs-12 col-sm-6 col-md-5 col-lg-9 col-xl-9 body" style="padding: 15px 15px 0px 15px;">
-                    <form class=""  method="POST" enctype="multipart/form-data">
-                        <div class="" style="margin: 0px margin-botton: 0px; ">
-                          <div  align="center">
-<!--                            <div class="col-md-1"></div>-->
-                            <div class="col-md-2 legenda" >
-                                <label>Clusters</label>
-                                <div class="row" style="padding-bottom: 3px;">
-                                    {{ filterchoice.csrf_token }}
-                                    <div class="col-md-6" style="padding: 0px; width: 70px; margin-left: 15px;">
-                                        {{ filterchoice.combobx(class="form-control show-tick", style="width: 60px; height: 20px;") }}
-                                    </div>
-                                    <div class="col-md-6" style="padding: 0px; width: 70px; margin-left: 20px;">
-                                        {{ filterchoice.combobx2(class="form-control show-tick", style="width: 60px; height: 20px;") }}
-                                    </div>
-                                </div>
-
+                <div class="file-stats">
+                    <div class="col-lg-4 col-md-3 bx-stat">
+                        <div class="info-box" align="center" style="box-shadow: none; padding-top: 10px;">
+                            <div class="content" style="color: black;">
+                                <div class="text">CASES</div>
+                                <div class="number"> {{ colect.datalog["c"] }} </div>
                             </div>
-
-                            <div class="col-md-2 legenda" style="margin-left: 20px;">
-                              <label>Type</label>
-                              <div class="form-check form-check-inline" style="margin-top: -4px;">
-                                  {{ filterchoice.checkbxgraph(class="filled-in chk-col-black") }}
-                                  <label class="form-check-label" style="margin:0px;">Graphs</label>
-                                  {{ filterchoice.checkbxother() }}
-                                  <label class="form-check-label" style="margin:0px;">Others</label>
-                              </div>
-                            </div>
-
-                            <div class="col-md-3 legenda" style="margin-left: 20px;">
-                                <label>Visualisation</label>
-                              <div class="form-check form-check-inline" style="margin-top: -2px;">
-        <!--                      {{ filterchoice.hidden_tag() }}-->
-                                  {% for subfield in filterchoice.radialcircle %}
-                                    {{ subfield(class="with-gap radio-col-black") }}
-                                    {{ subfield.label(style="margin:0px;") }}
-                                  {% endfor %}
-        <!--                      {{ filterchoice.radialcircle(style="list-style: none; padding-left: 0px; margin-top: -15px;") }}-->
-                              </div>
-                            </div>
-                              <div class="col-md-1"></div>
-                            <div class="col-md-1" style="margin-left: 150px;">
-
-                            </div>
-<!--                            <div class="col-md-1">-->
-                                {{ filterchoice.submit(class="btn bg-black left", style="width: 80px; height: 40px; margin-top: 0px; padding: 0;") }}
-        <!--                      <button type="submit" name="button" class="btn bg-black" style="width: 80px; height: 40px; margin-top: -10px; padding: 0;"><h5>OK</h5> </button>-->
-<!--                            </div>-->
-                          </div>
                         </div>
-                    </form>
+                    </div>
+                    <div class="col-lg-4 col-md-3 bx-stat">
+                        <div class="info-box" align="center" style="box-shadow: none; padding-top: 10px;">
+                            <div class="content" style="color: black;">
+                                <div class="text">VARIANTS</div>
+                                <div class="number"> {{ colect.datalog["v"] }} </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-3 bx-stat">
+                        <div class="info-box" align="center" style="box-shadow: none; padding-top: 10px;">
+                            <div class="content" style="color: black;">
+                                <div class="text">ACTIVITIES</div>
+                                <div class="number"> {{ colect.datalog["a"] }} </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
-            </div>
-          </div>
-        </div>
-    </nav>
+<!--                <div class="image">-->
+<!--                    <form method="POST"  enctype="multipart/form-data">-->
+<!--                        <div class="row" style="border: 1px solid black;">-->
+<!--                            {{ umcsv.csrf_token }}-->
+<!--                            {{ umcsv.entry(id="actual-btn", onchange="form.submit()", style="display: none;") }}-->
+<!--                            &lt;!&ndash; our custom upload button &ndash;&gt;-->
+<!--                            <label for="actual-btn" class="btn bg-black"><i class="material-icons">publish</i></label>-->
+<!--                            &lt;!&ndash; name of file chosen &ndash;&gt;-->
+<!--                            {% if umcsv.filename != 'No file chosen' %}-->
+<!--                                <span id="file-chosen"  style="margin-left: 15px;"><strong>{{ umcsv.filename }}</strong></span>-->
+<!--                            {% else %}-->
+<!--                                <span id="file-chosen"  style="margin-left: 15px;">{{ umcsv.filename }}</span>-->
+<!--                            {% endif %}-->
+<!--                        </div>-->
+<!--                    </form>-->
+<!--                    <i class="material-icons">folder</i>-->
+<!--                    <img src="../../images/user.png" width="48" height="48" alt="User" />-->
+<!--                </div>-->
+<!--                <div class="info-container">-->
+<!--                    <div class="name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">John Doe</div>-->
+<!--                    <div class="email">john.doe@example.com</div>-->
+<!--                    <div class="btn-group user-helper-dropdown">-->
+<!--                        <i class="material-icons" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">keyboard_arrow_down</i>-->
+<!--                        <ul class="dropdown-menu pull-right">-->
+<!--                            <li><a href="javascript:void(0);"><i class="material-icons">person</i>Profile</a></li>-->
+<!--                            <li role="separator" class="divider"></li>-->
+<!--                            <li><a href="javascript:void(0);"><i class="material-icons">group</i>Followers</a></li>-->
+<!--                            <li><a href="javascript:void(0);"><i class="material-icons">shopping_cart</i>Sales</a></li>-->
+<!--                            <li><a href="javascript:void(0);"><i class="material-icons">favorite</i>Likes</a></li>-->
+<!--                            <li role="separator" class="divider"></li>-->
+<!--                            <li><a href="javascript:void(0);"><i class="material-icons">input</i>Sign Out</a></li>-->
+<!--                        </ul>-->
+<!--                    </div>-->
+<!--                </div>-->
 
-    <section class="content" style="margin-top: 90px;">
+            </div>
+            <!-- #User Info -->
+            <!-- Menu -->
+            <div class="menu">
+                <ul class="list">
+                    <li class="header">ACTIVITIES LIST</li>
+                </ul>
+                <div align="center" style="padding: 13px 15px;">
+                    {% for i in colect.vsub.keys() %}
+                        {% if i in colect.diffclus['g1'] %}
+                            <div class="" style="margin-bottom: 2px; word-wrap: break-word; padding:10px 10px; color: #f0a202" align="left">
+                        {% elif i in colect.diffclus['g2'] %}
+                                <div class="" style="margin-bottom: 2px; word-wrap: break-word; padding:10px 10px; color: #f27cc9" align="left">
+                        {% else %}
+                                <div class="" style="margin-bottom: 2px; word-wrap: break-word; padding:10px 10px;" align="left">
+                        {% endif %}
+                                    <strong>{{ i }}:&nbsp;&nbsp;</strong>{{ colect.vsub[i] }}
+                                </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <!-- #Menu -->
+            <!-- Footer -->
+<!--            <div class="legal">-->
+<!--                <div class="copyright">-->
+<!--                    &copy; 2016 - 2017 AdminBSB - Material Design.-->
+<!--                </div>-->
+<!--                <div class="version">-->
+<!--                    <b>Version: </b> 1.0.5-->
+<!--                </div>-->
+<!--            </div>-->
+            <!-- #Footer -->
+    </aside>
+
+    <aside id="rightsidebar" class="right-sidebar">
+            <ul class="nav nav-tabs tab-nav-right" role="tablist">
+                <li role="presentation" class="active" style="width: 100%;"><a href="#settings" data-toggle="tab" >FILTER</a></li>
+<!--                <li role="presentation"><a href="#skins" data-toggle="tab">SETTINGS</a></li>-->
+            </ul>
+            <div class="tab-content">
+                <form class=""  method="POST" enctype="multipart/form-data">
+                    <div role="tabpanel" class="tab-pane fade in active in active" id="settings">
+                        {{ filterchoice.csrf_token }}
+                        <div class="demo-settings" style="margin-top: 60px; overflow-y: auto;">
+                            <p>CLUSTER CHOICE</p>
+                            <ul class="" style="list-style: none; padding: 0px 25px;">
+                                <li class="combo">
+                                    <div class="switch">
+                                        {{ filterchoice.combobx(class="form-control show-tick") }}
+                                    </div>
+                                </li>
+                                <li class="combo">
+                                    <div class="switch">
+                                        {{ filterchoice.combobx2(class="form-control show-tick") }}
+                                    </div>
+                                </li>
+                            </ul>
+                            <p>CHART TYPE</p>
+                            <ul class="setting-list" style="list-style: none; padding: 0px 25px;">
+                                <li>
+                                    <span>Graphs</span>
+                                    <div class="switch">
+                                        <label class="form-check-label">
+                                            {{ filterchoice.checkbxgraph(class="filled-in chk-col-black") }}
+                                            <span class="lever"></span>
+                                        </label>
+                                    </div>
+                                </li>
+                                <li>
+                                    <span>Heatmaps</span>
+                                    <div class="switch">
+                                        <label>{{ filterchoice.checkbxother(class="filled-in chk-col-black") }}<span class="lever"></span></label>
+                                    </div>
+                                </li>
+                            </ul>
+                            <p>VISUALIZATION</p>
+                            <ul class="setting-list" style="padding: 0px 25px;">
+                                  {{ filterchoice.hidden_tag() }}
+                                  {% for subfield in filterchoice.radialcircle %}
+                                     <li>
+                                        <span>{{ subfield.label(style="font-weight: normal;") }}</span>
+                                        <div class="switch">
+                                            <label>{{ subfield(class="with-gap radio-col-black") }}<span class="lever"></span></label>
+                                        </div>
+                                     </li>
+                                  {% endfor %}
+                            </ul>
+                            <div style="padding: 20px 35px; " align="center">
+                                {{ filterchoice.submit(class="btn bg-black", style="width: 80px; height: 40px; margin-top: 0px; padding: 0;") }}
+                            </div>
+
+                        </div>
+
+                    </div>
+                </form>
+<!--                <div role="tabpanel" class="tab-pane fade" id="skins">-->
+<!--                    <div class="demo-settings">-->
+<!--                        <p>GENERAL SETTINGS</p>-->
+<!--                        <ul class="setting-list">-->
+<!--                            <li>-->
+<!--                                <span>Report Panel Usage</span>-->
+<!--                                <div class="switch">-->
+<!--                                    <label>{{ filterchoice.checkbxgraph(class="filled-in chk-col-black") }}</span></label>-->
+<!--                                </div>-->
+<!--                            </li>-->
+<!--                            <li>-->
+<!--                                <span>Email Redirect</span>-->
+<!--                                <div class="switch">-->
+<!--                                    <label><input type="checkbox"><span class="lever"></span></label>-->
+<!--                                </div>-->
+<!--                            </li>-->
+<!--                        </ul>-->
+<!--                        <p>SYSTEM SETTINGS</p>-->
+<!--                        <ul class="setting-list">-->
+<!--                            <li>-->
+<!--                                <span>Notifications</span>-->
+<!--                                <div class="switch">-->
+<!--                                    <label><input type="checkbox" checked><span class="lever"></span></label>-->
+<!--                                </div>-->
+<!--                            </li>-->
+<!--                            <li>-->
+<!--                                <span>Auto Updates</span>-->
+<!--                                <div class="switch">-->
+<!--                                    <label><input type="checkbox" checked><span class="lever"></span></label>-->
+<!--                                </div>-->
+<!--                            </li>-->
+<!--                        </ul>-->
+<!--                        <p>ACCOUNT SETTINGS</p>-->
+<!--                        <ul class="setting-list">-->
+<!--                            <li>-->
+<!--                                <span>Offline</span>-->
+<!--                                <div class="switch">-->
+<!--                                    <label><input type="checkbox"><span class="lever"></span></label>-->
+<!--                                </div>-->
+<!--                            </li>-->
+<!--                            <li>-->
+<!--                                <span>Location Permission</span>-->
+<!--                                <div class="switch">-->
+<!--                                    <label><input type="checkbox" checked><span class="lever"></span></label>-->
+<!--                                </div>-->
+<!--                            </li>-->
+<!--                        </ul>-->
+<!--                    </div>-->
+<!--                </div>-->
+            </div>
+        </aside>
+
+    <section class="content">
         <div class="container-fluid">
             <div class="row clearfix">
                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
@@ -298,31 +581,31 @@
                         </div>
                     {% endif %}
                 </div>
-                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                    {% if colect.imageboost %}
-                        <div class="card">
-                            <div class="body" style="padding: 15px;">
-                                <div class="sub row" align="center" style="">
-                                    {% for i in colect.vsub.keys() %}
-                                        {% if i in colect.diffclus['g1'] %}
-                                            <div class="col-md-2" style="margin-bottom: 2px; word-wrap: break-word; padding:0px 10px; color: #f0a202" align="left">
-                                        {% elif i in colect.diffclus['g2'] %}
-                                                <div class="col-md-2" style="margin-bottom: 2px; word-wrap: break-word; padding:0px 10px; color: #f27cc9" align="left">
-                                        {% else %}
-                                                <div class="col-md-2" style="margin-bottom: 2px; word-wrap: break-word; padding:0px 10px;" align="left">
-                                        {% endif %}
-                                                    <strong>{{ i }}:</strong>{{ colect.vsub[i] }}
-                                                </div>
-                                    {% endfor %}
-
-                                </div>
-                            </div>
-                        </div>
-                    {% endif %}
-                </div>
-            </div>
+<!--                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">-->
+<!--                    {% if colect.imageboost %}-->
+<!--                        <div class="card">-->
+<!--                            <div class="body" style="padding: 15px;">-->
+<!--                                <div class="sub row" align="center" style="">-->
+<!--                                    {% for i in colect.vsub.keys() %}-->
+<!--                                        {% if i in colect.diffclus['g1'] %}-->
+<!--                                            <div class="col-md-2" style="margin-bottom: 2px; word-wrap: break-word; padding:0px 10px; color: #f0a202" align="left">-->
+<!--                                        {% elif i in colect.diffclus['g2'] %}-->
+<!--                                                <div class="col-md-2" style="margin-bottom: 2px; word-wrap: break-word; padding:0px 10px; color: #f27cc9" align="left">-->
+<!--                                        {% else %}-->
+<!--                                                <div class="col-md-2" style="margin-bottom: 2px; word-wrap: break-word; padding:0px 10px;" align="left">-->
+<!--                                        {% endif %}-->
+<!--                                                    <strong>{{ i }}:</strong>{{ colect.vsub[i] }}-->
+<!--                                                </div>-->
+<!--                                    {% endfor %}-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    {% endif %}-->
+<!--                </div>-->
+<!--            </div>-->
             {% if colect.graphothers %}
-                <div class="row clearfix">
+                <div class="row clearfix" style="padding: 0px 15px;">
                     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                         <div class="card">
                             {% if colect.imageboost %}
@@ -354,6 +637,7 @@
     <script src="../static/plugins/node-waves/waves.js"></script>
     <script src="../static/admin.js"></script>
     <script src="../static/plugins/forms/basic-form-elements.js"></script>
+<!--    <script src="../static/plugins/jquery-slimscroll/jquery.slimscroll.js"></script>-->
 
     <script src = 'https://cdn.plot.ly/plotly-latest.min.js'> </script>
     <script type = 'text/javascript'>

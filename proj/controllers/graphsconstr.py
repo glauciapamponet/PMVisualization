@@ -105,7 +105,7 @@ def createimgtrans(c1, c2, nome):
 
     edwitdh = [3 if edge.tuple in diffes else 0 if edge.tuple not in edges['c1'] else 2 for edge in g.es]
     plot(g, layout=layout, vertex_shape=shapev, vertex_label_color="white", vertex_size=sizev, edge_width=edwitdh,
-         margin=[30, 40, 40, 30], vertex_label_size=sizel, bbox=(600, 540), target='proj/static/graphs/'+nome+'.png')
+         margin=[30, 40, 40, 30], vertex_label_size=sizel, bbox=(665, 665), target='proj/static/graphs/'+nome+'.png')
 
 
 
@@ -129,7 +129,7 @@ def createimgativs(c1, c2, nome):  # c2 são dois clusters
     sizev, sizel, shapev, layout = view_config(g, vertices['orig'], edges['c1'])
     diffclus = [vertices['orig'][k] for k in diffclus]
     plot(g, layout=layout, vertex_shape=shapev, vertex_label_color=lcolor, vertex_size=sizev, edge_width=2,
-         margin=[30, 40, 40, 30], vertex_label_size=sizel, vertex_color=atcolor, bbox=(600, 540),
+         margin=[30, 40, 40, 30], vertex_label_size=sizel, vertex_color=atcolor, bbox=(665, 665),
          keep_aspect_ratio=False, target='proj/static/graphs/' + nome + '.png')
 
     return diffclus

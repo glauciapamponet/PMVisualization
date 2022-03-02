@@ -35,6 +35,7 @@ class ExibitionFilter(FlaskForm):
 
 
 class FilterColect():
+
     def __init__(self):
         self.graphothers = False
         self.imgboost = False
@@ -47,6 +48,7 @@ class FilterColect():
         self.evt = [{'min': 0, 'avg': 0, 'max': 0}, {'min': 0, 'avg': 0, 'max': 0}]
         self.totalCases = [0, 0]
         self.totalEvnts = [0, 0]
+        self.datalog = {'v': 0, 'c': 0, 'a': 0}
         self.heatmaps = [None, None]
 
     def clean_data(self):

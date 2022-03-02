@@ -32,8 +32,6 @@ def test():
     colect = FilterColect()
     umcsv.filename = datafilter['arq']
     if umcsv.validate_on_submit():
-
-        print(umcsv.filename)
         if len(checkxtension(umcsv.entry.data)) > 0:
             print("ONLY CSV")  # não é csv, tem que mandar mensagem de erro
             return redirect(request.url)
@@ -46,6 +44,7 @@ def test():
                 datafilter['cbxlist'] = listcluster()
                 colect = FilterColect()  # upagem de novo file zera o objeto
                 umcsv.filename = datafilter['arq']
+                colect.vsub, colect.datalog = dsb.get_datalog()
             filterchoice.updatecombo(datafilter['cbxlist'])
     if filterchoice.validate_on_submit() and len(datafilter['arq']) > 0:
         colect.get_act(pdirectory[0])
@@ -64,7 +63,6 @@ def test():
             except Exception as e:
                 print("Erro: ", e)
             if filterchoice.checkbxgraph.data:  # exibindo grafos
-                # if -1 in c1 or -1 in c2: # desativar os combos temporariamente
                 colect.imageboost = True
                 if filterchoice.radialcircle.data == 'activ':  # exibindo atividades
                     try:
@@ -90,10 +88,12 @@ def test():
             filterchoice.updatecombo(datafilter['cbxlist'])  # para combobox que nao está funcionando
         else:
             colect.clean_data()
-        print(colect.vsub)
+        _, colect.datalog = dsb.get_datalog()
     else:
         print(filterchoice.errors)
         if len(datafilter['arq']) == 0: umcsv.filename = 'No file chosen'
+
+
 
     return render_template("page.html", umcsv=umcsv, filterchoice=filterchoice, colect=colect, c1=str(colect.c1)[1:-1],
                            c2=str(colect.c2)[1:-1])
