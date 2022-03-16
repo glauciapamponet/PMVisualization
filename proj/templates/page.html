@@ -76,86 +76,6 @@
 </head>
 
 <body class="theme-black ls-closed">
-<!--    <nav class="navbar" style="background-color: white; display: inline-block;">-->
-<!--        <div  style="background-color: #000;">-->
-<!--            <div style="min-height: 15px;"></div>-->
-<!--        </div>-->
-<!--        <div class="card-navbar-down">-->
-<!--          <div class="row clearfix" style="margin-botton: 0px;">-->
-<!--            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" >-->
-<!--                <div class="col-xs-12 col-sm-2 col-md-3 col-lg-3 col-xl-3 custom-file" style="padding: 15px;">-->
-<!--                    <form method="POST"  enctype="multipart/form-data">-->
-<!--                        <div class="row" style="margin-left: 10px;">-->
-<!--                            {{ umcsv.csrf_token }}-->
-<!--                            {{ umcsv.entry(id="actual-btn", onchange="form.submit()", style="display: none;") }}-->
-<!--                            &lt;!&ndash; our custom upload button &ndash;&gt;-->
-<!--                            <label for="actual-btn" class="btn bg-black"><i class="material-icons">publish</i></label>-->
-<!--                            &lt;!&ndash; name of file chosen &ndash;&gt;-->
-<!--                            {% if umcsv.filename != 'No file chosen' %}-->
-<!--                                <span id="file-chosen"  style="margin-left: 15px;"><strong>File: </strong>{{ umcsv.filename }}</span>-->
-<!--                            {% else %}-->
-<!--                                <span id="file-chosen"  style="margin-left: 15px;">{{ umcsv.filename }}</span>-->
-<!--                            {% endif %}-->
-<!--                        </div>-->
-<!--                    </form>-->
-<!--                </div>-->
-<!--                <div class="col-xs-12 col-sm-6 col-md-5 col-lg-9 col-xl-9 body" style="padding: 15px 15px 0px 15px;">-->
-<!--                    <form class=""  method="POST" enctype="multipart/form-data">-->
-<!--                        <div class="" style="margin: 0px margin-botton: 0px; ">-->
-<!--                          <div  align="center">-->
-<!--&lt;!&ndash;                            <div class="col-md-1"></div>&ndash;&gt;-->
-<!--                            <div class="col-md-2 legenda" >-->
-<!--                                <label>Clusters</label>-->
-<!--                                <div class="row" style="padding-bottom: 3px;">-->
-<!--                                    {{ filterchoice.csrf_token }}-->
-<!--                                    <div class="col-md-6" style="padding: 0px; width: 70px; margin-left: 15px;">-->
-<!--                                        {{ filterchoice.combobx(class="form-control show-tick", style="width: 60px; height: 20px;") }}-->
-<!--                                    </div>-->
-<!--                                    <div class="col-md-6" style="padding: 0px; width: 70px; margin-left: 20px;">-->
-<!--                                        {{ filterchoice.combobx2(class="form-control show-tick", style="width: 60px; height: 20px;") }}-->
-<!--                                    </div>-->
-<!--                                </div>-->
-
-<!--                            </div>-->
-
-<!--                            <div class="col-md-2 legenda" style="margin-left: 20px;">-->
-<!--                              <label>Type</label>-->
-<!--                              <div class="form-check form-check-inline" style="margin-top: -4px;">-->
-<!--                                  {{ filterchoice.checkbxgraph(class="filled-in chk-col-black") }}-->
-<!--                                  <label class="form-check-label" style="margin:0px;">Graphs</label>-->
-<!--                                  {{ filterchoice.checkbxother() }}-->
-<!--                                  <label class="form-check-label" style="margin:0px;">Others</label>-->
-<!--                              </div>-->
-<!--                            </div>-->
-
-<!--                            <div class="col-md-3 legenda" style="margin-left: 20px;">-->
-<!--                                <label>Visualisation</label>-->
-<!--                              <div class="form-check form-check-inline" style="margin-top: -2px;">-->
-<!--        &lt;!&ndash;                      {{ filterchoice.hidden_tag() }}&ndash;&gt;-->
-<!--                                  {% for subfield in filterchoice.radialcircle %}-->
-<!--                                    {{ subfield(class="with-gap radio-col-black") }}-->
-<!--                                    {{ subfield.label(style="margin:0px;") }}-->
-<!--                                  {% endfor %}-->
-<!--        &lt;!&ndash;                      {{ filterchoice.radialcircle(style="list-style: none; padding-left: 0px; margin-top: -15px;") }}&ndash;&gt;-->
-<!--                              </div>-->
-<!--                            </div>-->
-<!--                              <div class="col-md-1"></div>-->
-<!--                            <div class="col-md-1" style="margin-left: 150px;">-->
-
-<!--                            </div>-->
-<!--&lt;!&ndash;                            <div class="col-md-1">&ndash;&gt;-->
-<!--                                {{ filterchoice.submit(class="btn bg-black left", style="width: 80px; height: 40px; margin-top: 0px; padding: 0;") }}-->
-<!--        &lt;!&ndash;                      <button type="submit" name="button" class="btn bg-black" style="width: 80px; height: 40px; margin-top: -10px; padding: 0;"><h5>OK</h5> </button>&ndash;&gt;-->
-<!--&lt;!&ndash;                            </div>&ndash;&gt;-->
-<!--                          </div>-->
-<!--                        </div>-->
-<!--                    </form>-->
-<!--                </div>-->
-
-<!--            </div>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--    </nav>-->
         <nav class="navbar" >
         <div class="container-fluid" style="display: flex; justify-content: space-between;">
             <div class="navbar-header">
@@ -222,42 +142,6 @@
                         </div>
                     </div>
                 </div>
-
-<!--                <div class="image">-->
-<!--                    <form method="POST"  enctype="multipart/form-data">-->
-<!--                        <div class="row" style="border: 1px solid black;">-->
-<!--                            {{ umcsv.csrf_token }}-->
-<!--                            {{ umcsv.entry(id="actual-btn", onchange="form.submit()", style="display: none;") }}-->
-<!--                            &lt;!&ndash; our custom upload button &ndash;&gt;-->
-<!--                            <label for="actual-btn" class="btn bg-black"><i class="material-icons">publish</i></label>-->
-<!--                            &lt;!&ndash; name of file chosen &ndash;&gt;-->
-<!--                            {% if umcsv.filename != 'No file chosen' %}-->
-<!--                                <span id="file-chosen"  style="margin-left: 15px;"><strong>{{ umcsv.filename }}</strong></span>-->
-<!--                            {% else %}-->
-<!--                                <span id="file-chosen"  style="margin-left: 15px;">{{ umcsv.filename }}</span>-->
-<!--                            {% endif %}-->
-<!--                        </div>-->
-<!--                    </form>-->
-<!--                    <i class="material-icons">folder</i>-->
-<!--                    <img src="../../images/user.png" width="48" height="48" alt="User" />-->
-<!--                </div>-->
-<!--                <div class="info-container">-->
-<!--                    <div class="name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">John Doe</div>-->
-<!--                    <div class="email">john.doe@example.com</div>-->
-<!--                    <div class="btn-group user-helper-dropdown">-->
-<!--                        <i class="material-icons" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">keyboard_arrow_down</i>-->
-<!--                        <ul class="dropdown-menu pull-right">-->
-<!--                            <li><a href="javascript:void(0);"><i class="material-icons">person</i>Profile</a></li>-->
-<!--                            <li role="separator" class="divider"></li>-->
-<!--                            <li><a href="javascript:void(0);"><i class="material-icons">group</i>Followers</a></li>-->
-<!--                            <li><a href="javascript:void(0);"><i class="material-icons">shopping_cart</i>Sales</a></li>-->
-<!--                            <li><a href="javascript:void(0);"><i class="material-icons">favorite</i>Likes</a></li>-->
-<!--                            <li role="separator" class="divider"></li>-->
-<!--                            <li><a href="javascript:void(0);"><i class="material-icons">input</i>Sign Out</a></li>-->
-<!--                        </ul>-->
-<!--                    </div>-->
-<!--                </div>-->
-
             </div>
             <!-- #User Info -->
             <!-- Menu -->
@@ -353,55 +237,6 @@
 
                     </div>
                 </form>
-<!--                <div role="tabpanel" class="tab-pane fade" id="skins">-->
-<!--                    <div class="demo-settings">-->
-<!--                        <p>GENERAL SETTINGS</p>-->
-<!--                        <ul class="setting-list">-->
-<!--                            <li>-->
-<!--                                <span>Report Panel Usage</span>-->
-<!--                                <div class="switch">-->
-<!--                                    <label>{{ filterchoice.checkbxgraph(class="filled-in chk-col-black") }}</span></label>-->
-<!--                                </div>-->
-<!--                            </li>-->
-<!--                            <li>-->
-<!--                                <span>Email Redirect</span>-->
-<!--                                <div class="switch">-->
-<!--                                    <label><input type="checkbox"><span class="lever"></span></label>-->
-<!--                                </div>-->
-<!--                            </li>-->
-<!--                        </ul>-->
-<!--                        <p>SYSTEM SETTINGS</p>-->
-<!--                        <ul class="setting-list">-->
-<!--                            <li>-->
-<!--                                <span>Notifications</span>-->
-<!--                                <div class="switch">-->
-<!--                                    <label><input type="checkbox" checked><span class="lever"></span></label>-->
-<!--                                </div>-->
-<!--                            </li>-->
-<!--                            <li>-->
-<!--                                <span>Auto Updates</span>-->
-<!--                                <div class="switch">-->
-<!--                                    <label><input type="checkbox" checked><span class="lever"></span></label>-->
-<!--                                </div>-->
-<!--                            </li>-->
-<!--                        </ul>-->
-<!--                        <p>ACCOUNT SETTINGS</p>-->
-<!--                        <ul class="setting-list">-->
-<!--                            <li>-->
-<!--                                <span>Offline</span>-->
-<!--                                <div class="switch">-->
-<!--                                    <label><input type="checkbox"><span class="lever"></span></label>-->
-<!--                                </div>-->
-<!--                            </li>-->
-<!--                            <li>-->
-<!--                                <span>Location Permission</span>-->
-<!--                                <div class="switch">-->
-<!--                                    <label><input type="checkbox" checked><span class="lever"></span></label>-->
-<!--                                </div>-->
-<!--                            </li>-->
-<!--                        </ul>-->
-<!--                    </div>-->
-<!--                </div>-->
             </div>
         </aside>
 
@@ -658,5 +493,4 @@
       );
     </script>
 </body>
-
 </html>
