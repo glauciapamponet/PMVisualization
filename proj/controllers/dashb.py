@@ -1,3 +1,8 @@
+# Construção da àrea de dashboard e dos heatmaps da ferramenta
+# A área de dashboard mostra as estatísticas básicas dos grupos
+# Os heatmaps mostram as frequencias por cases do log de atividades
+# e transições usando plotly.
+
 import json
 import pandas as pd
 import plotly
@@ -16,6 +21,7 @@ def choice_view(obj, wrd_choice):
         heat_trans(obj, obj.c2, 1)
 
 
+# Carregamento do log para ser usado pelos métodos
 def get_log():
     result = dft.pdirectory[0].copy()
     result['Sequence'] = result['Sequence'].apply(lambda x: 'Start_Process ' + x + ' End_Process')
@@ -25,6 +31,7 @@ def get_log():
     return result, vert_dict
 
 
+# Carregamento das estatísticas totais do log
 def get_datalog():
     res, vdict = get_log()
     variants = int(pd.DataFrame(res['Sequence'].explode().dropna().drop_duplicates()).count())
@@ -33,10 +40,12 @@ def get_datalog():
     return vdict, {'v': variants, 'c': cases, 'a': act}
 
 
+# contagem de frequencias
 def count_freq(item, df):
     return len([line for line in df if item in line])
 
 
+# Métricas do dashboard:
 # TEventos> TCases > TVariants > AVG Ev > AVG Act > AVG Time
 def get_metrics(obj, c1, index):
     result = dft.pdirectory[0].copy()
@@ -64,6 +73,8 @@ def get_metrics(obj, c1, index):
     obj.totalEvnts[index] = int(res['evnts'].sum())
 
 
+# Construção do dataframe matriz para montar o heatmap
+# de frequencia de cada grupo de clusters, incluindo a seleção total
 def get_data(labels, df, clist, columns):
     dftrans = pd.DataFrame(columns=[columns[0]])
     dftrans[columns[0]] = labels
@@ -80,6 +91,7 @@ def get_data(labels, df, clist, columns):
     return dfheat
 
 
+# Construção do heatmap de frequencia de atividades
 def heat_activs(obj, cl, index):
     result, act_dict = get_log()
     act_log = sorted(act_dict.keys())
@@ -94,6 +106,7 @@ def heat_activs(obj, cl, index):
     obj.heatmaps[index] = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
 
 
+# Lista de todas as transições presentes no log
 def get_transitions(df, dictio):
     df['transitions'] = df['act seq'].apply(
         lambda x: [(get_key(x[i - 1], dictio), get_key(x[i], dictio)) for i in range(1, len(x))])
@@ -101,6 +114,7 @@ def get_transitions(df, dictio):
     return [(i, j) for i, j in labels]
 
 
+# Construção do heatmap de frequencia de transições
 def heat_trans(obj, cl, index):
     result, vert_dict = get_log()
 
@@ -117,5 +131,3 @@ def heat_trans(obj, cl, index):
     fig.update_xaxes(side="top", autorange=False, constrain="range")
     obj.heatmaps[index] = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
 
-# terminar de montar o heatmap, consertar o count_var() que nao vai dar pra usar em trans
-# ver a questão de visualização de cases vs variantes (o que precisa mudar??)

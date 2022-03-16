@@ -1,7 +1,12 @@
+# arquivo de criação de grafos e geração das imagens de visualização
+# na ferramenta. Imagens de grafos geradas com o uso da biblioteca
+# igraph e cairo
+
 from igraph import Graph, plot
 from proj.controllers import default as dft
 
 
+# pesquisa de chave de dicionario
 def get_key(val, dictio):
     for key, value in dictio.items():
         if val == value:
@@ -9,6 +14,7 @@ def get_key(val, dictio):
     return "none"
 
 
+# rotulação das atividades do grafo para atender a estetica da plotagem
 def rotulo(n):
     i = -1
     if n < 26: return chr(n + 65)
@@ -18,6 +24,7 @@ def rotulo(n):
     return chr(i + 65) + chr(n % 26 + 65)
 
 
+# carregamento do log para uso no métodos do arquivo
 def get_edglog(c1, c2):
     result = dft.pdirectory[0].copy()
     result['Sequence'] = result['Sequence'].apply(lambda x: 'Start_Process ' + x + ' End_Process')
@@ -32,6 +39,9 @@ def get_edglog(c1, c2):
     return result, vertices, edges
 
 
+# listagem dos vertices do grafo, sendo cada vértice uma atividade do log.
+# o retorno é um dicionário com o nome das atividades e outro com o nome dos
+# rótulos. Ambos têm as mesmas chaves.
 def get_vertices(df, seq_df_colname='Sequence'):
     df['act seq'] = df[seq_df_colname].apply(lambda x: x.split(' '))
     verts = {i: act for i, act in enumerate(df['act seq'].explode().dropna().drop_duplicates())}
@@ -42,6 +52,7 @@ def get_vertices(df, seq_df_colname='Sequence'):
     return vertices, verts
 
 
+# listagem das arestas do grafo, com a identificação das chaves dos vértices
 def get_edges(df, verts, vertices):
     df['transitions'] = df['act seq'].apply(lambda x: [(x[i - 1], x[i]) for i in range(1, len(x))])
     labels = list(df['transitions'].explode().dropna().drop_duplicates())
@@ -49,10 +60,7 @@ def get_edges(df, verts, vertices):
     return edges_ids
 
 
-colors = ['#6c0303']  # bordô do PET
-edges_colors = ['#ff0077', '#007bff', '#ff8c00', '#00d43f']  # rosa, azul, amarelo, verde
-
-
+# montagem do grafo
 def get_graph(vertices, edges):
     g = Graph(directed=True)
     g.add_vertices(vertices.keys())
@@ -63,14 +71,17 @@ def get_graph(vertices, edges):
     return g
 
 
+# lista de atividades que estão em uma determinada lista de arestas
 def get_vert_ativ(vertices, edges_ids):
     return [v for v in vertices.keys() if v not in [v for edg in edges_ids if edg[0] == v or edg[1] == v]]
 
 
+# coloração das arestas
 def paint_edges(g, color1, color2, edgelist):
     g.es['color'] = [color1 if edge.tuple in edgelist else color2 for edge in g.es]
 
 
+# configurações gerais da montagem de grafos para a visualização
 def view_config(g, vertices, edges_ids):
     def sizes(op1, op2, op3):
         return [op1 if v == get_key('ST', vertices) or v == get_key('END', vertices)
@@ -89,6 +100,12 @@ def view_config(g, vertices, edges_ids):
     return sizes(30, 25, 0), sizes(10, 15, 0), vshape, layout  # sizev, sizel, vshape, layoutgraph
 
 
+# Criação da imagem de grafos feita por visualização focada em tiransções(arestas).
+# Esta função chama as geradoras das listas de diferenças entre grupos de
+# clusters em relação às transições. A ordem das transições na lista
+# que preenche o grafo é considerada para manter o design do grafo.
+# A coloração representa transições que existem em um grupo e em outro não.
+# A plotagem é enviada para os arquivos da ferramenta, onde é mostrada no html.
 def createimgtrans(c1, c2, nome):
     result, vertices, edges = get_edglog(c1, c2)
 
@@ -99,8 +116,6 @@ def createimgtrans(c1, c2, nome):
     g.es['color'] = ['#ff0000' if edge.tuple in diffes else '#a1a1a1' if edge.tuple in edges['c1']
                     else 'white' for edge in g.es]
 
-    # setando configurações de visualização
-
     sizev, sizel, shapev, layout = view_config(g, vertices['orig'], edges['c1'])
 
     edwitdh = [3 if edge.tuple in diffes else 0 if edge.tuple not in edges['c1'] else 2 for edge in g.es]
@@ -108,13 +123,18 @@ def createimgtrans(c1, c2, nome):
          margin=[30, 40, 40, 30], vertex_label_size=sizel, bbox=(665, 665), target='proj/static/graphs/'+nome+'.png')
 
 
-
+# Coleta das atividades que existem em um grupo mas não no outro
 def get_diff_cluster(vertices, edges_ids, edges_ids2):
     dif1 = get_vert_ativ(vertices, edges_ids)  # nao tem no C1
     dif2 = get_vert_ativ(vertices, edges_ids2)  # nao tem no C2
     return [i for i in dif2 if i not in dif1 and vertices[i] != 'ST' and vertices[i] != 'END']
 
 
+# Criação da imagem de grafos feita por visualização focada em atividades(vértices).
+# Esta função chama as geradoras das listas de diferenças entre grupos de
+# clusters em relação às atividades. A ordem das transições na
+# lista que preenche o grafo é considerada para manter o design do grafo.
+# A plotagem é enviada para os arquivos da ferramenta, onde é mostrada no html.
 def createimgativs(c1, c2, nome):  # c2 são dois clusters
     result, vertices, edges = get_edglog(c1, c2)
 

@@ -1,4 +1,9 @@
-from flask import render_template, url_for, request, redirect
+# arquivo responsável pela consetrução da view da ferramenta em flask.
+# possui apenas uma view onde se realiza o armazenamento do arquivo .csv,
+# a chamada dos métodos responsáveis pela filtragem dos dados e geração
+# da visualização na ferramenta.
+
+from flask import render_template, request, redirect
 from proj.controllers import graphsconstr as gc
 from proj.controllers import dashb as dsb
 from proj import app
@@ -12,19 +17,24 @@ pdirectory = []
 vsub = {}
 
 
+# montagem das atividadades mostradas na área de Activities List
 def get_act(v):
     abrev, name = gc.get_vertices(pdirectory[0].copy())
     v = {abrev[i]: name[i] for i in name.keys()}
 
 
+# checagem da extensão que está sendo carregada na ferramenta. A única extensão
+# permitida na lista FILEALLOWED é .csv
 def checkxtension(datas):
     return [files.filename for files in datas if files.filename[-4:] not in FILEALLOWED]
 
 
+# coleta da lista de clusters do .csv carregado
 def listcluster():
     return list(set(pdirectory[0]['cluster']))
 
 
+# view da ferramenta
 @app.route("/", methods=["GET", "POST"])
 def test():
     umcsv = FileChoice()
@@ -92,8 +102,6 @@ def test():
     else:
         print(filterchoice.errors)
         if len(datafilter['arq']) == 0: umcsv.filename = 'No file chosen'
-
-
 
     return render_template("page.html", umcsv=umcsv, filterchoice=filterchoice, colect=colect, c1=str(colect.c1)[1:-1],
                            c2=str(colect.c2)[1:-1])
