@@ -51,7 +51,7 @@ def get_metrics(obj, c1, index):
     result = dft.pdirectory[0].copy()
 
     # ACTIVITIES MIN, AVG, MAX
-    res = result[result.cluster.isin(c1)]
+    res = result[result.cluster.isin(c1)].copy()
     res['countAct'] = res['Sequence'].apply(lambda x: len(set(x.split(' '))))
     obj.activ[index] = {'min': res['countAct'].min(),
                         'avg': "{:.1f}".format(res['countAct'].mean()),
@@ -99,10 +99,11 @@ def heat_activs(obj, cl, index):
     df = get_data(act_log, result, cl, ['Activs', 'Sequence'])
     list_clusters = df.columns.tolist()
 
-    fig = px.imshow(df.transpose(), labels={'x': 'Activity', 'y': 'Cluster', 'z': 'Total Variants'}, x=act_log,
-                    y=list_clusters, width=700, height=450, color_continuous_scale='blues')
+    fig = px.imshow(df.transpose(), labels={'x': 'Activity', 'y': 'Cluster', 'color': 'Cases'}, x=act_log,
+                    y=list_clusters, width=700, height=450, color_continuous_scale='turbo')
     fig.update_layout(xaxis={'type': 'category'}, yaxis_nticks=len(list_clusters), xaxis_nticks=len(act_log))
     fig.update_xaxes(side="top")
+    fig.update_coloraxes(cmax=len(set(result['Case ID'])), cmin=0)
     obj.heatmaps[index] = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
 
 
@@ -124,10 +125,11 @@ def heat_trans(obj, cl, index):
     df = get_data(trans_log, result, cl, ['Transitions', 'transitions'])
     list_clusters = df.columns.tolist()
 
-    fig = px.imshow(df.transpose(), labels={'x': 'Transition', 'y': 'Cluster', 'z': 'Total Variants'},
+    fig = px.imshow(df.transpose(), labels={'x': 'Transition', 'y': 'Cluster', 'color': 'Cases'},
                     x=[str(i[0]) + "," + str(i[1]) for i in trans_log],
-                    y=list_clusters, color_continuous_scale='blues', width=700, height=450)
+                    y=list_clusters, color_continuous_scale='turbo', width=700, height=450)
     fig.update_layout(xaxis={'type': 'category'}, yaxis_nticks=len(list_clusters), xaxis_nticks=len(trans_log))
     fig.update_xaxes(side="top", autorange=False, constrain="range")
+    fig.update_coloraxes(cmax=len(set(result['Case ID'])), cmin=0)
     obj.heatmaps[index] = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
 

@@ -98,10 +98,9 @@ def test():
             filterchoice.updatecombo(datafilter['cbxlist'])  # para combobox que nao está funcionando
         else:
             colect.clean_data()
-        _, colect.datalog = dsb.get_datalog()
+        colect.vsub, colect.datalog = dsb.get_datalog()
     else:
-        print(filterchoice.errors)
+        #print(filterchoice.errors)
         if len(datafilter['arq']) == 0: umcsv.filename = 'No file chosen'
-
     return render_template("page.html", umcsv=umcsv, filterchoice=filterchoice, colect=colect, c1=str(colect.c1)[1:-1],
                            c2=str(colect.c2)[1:-1])

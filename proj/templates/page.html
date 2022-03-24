@@ -91,7 +91,11 @@
             </div>
             <div class="collapse navbar-collapse" id="navbar-collapse">
                 <ul class="nav navbar-nav navbar-right">
-                    <li class="pull-right"><a href="javascript:void(0);" class="js-right-sidebar" data-close="true"><i class="material-icons">more_vert</i></a></li>
+                    <li class="pull-right">
+                        <a href="javascript:void(0);" class="js-right-sidebar" data-close="true">
+                            <strong class="">Filter</strong>
+                        </a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -178,8 +182,7 @@
 
     <aside id="rightsidebar" class="right-sidebar">
             <ul class="nav nav-tabs tab-nav-right" role="tablist">
-                <li role="presentation" class="active" style="width: 100%;"><a href="#settings" data-toggle="tab" >FILTER</a></li>
-<!--                <li role="presentation"><a href="#skins" data-toggle="tab">SETTINGS</a></li>-->
+                <li role="presentation" class="active" style="width: 100%;"><a href="#settings" data-toggle="tab" >FILTER<br><small>Right Panel</small></a></li>
             </ul>
             <div class="tab-content">
                 <form class=""  method="POST" enctype="multipart/form-data">
@@ -244,9 +247,12 @@
         <div class="container-fluid">
             <div class="row clearfix">
                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                    <div class="card" style="margin-bottom:5px; ">
-                         <div class="header bg-black" style="padding: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" align="center">
-                             <h2><strong>CLUSTER {{ c1 }}</strong></h2>
+                    <div class="card" style="margin-bottom:5px; max-height: 50px;">
+                         <div class="header bg-black" style="padding: 15px; max-height: 50px;" align="center">
+                             <div style="overflow-y: auto; max-height: 21px;">
+                                 <h2><strong>CLUSTER {{ c1 }}</strong></h2>
+                             </div>
+
 <!--                             <span><strong>CLUSTER {{ c1 }}</strong></span>-->
                          </div>
                     </div>
@@ -317,9 +323,11 @@
                     </div>
                 </div>
                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                        <div class="card" style="margin-bottom:5px;">
-                             <div class="header bg-black" style="padding: 15px;" align="center">
-                                 <h2><strong>CLUSTER {{ c2 }}</strong></h2>
+                        <div class="card" style="margin-bottom:5px; max-height: 50px;">
+                             <div class="header bg-black" style="padding: 15px; max-height: 50px;" align="center">
+                                 <div style="overflow-y: auto; max-height: 21px;">
+                                    <h2><strong>CLUSTER {{ c2 }}</strong></h2>
+                                 </div>
                              </div>
                         </div>
                     <div class="row">
@@ -444,8 +452,10 @@
                     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                         <div class="card">
                             {% if colect.imageboost %}
-                                <div class="header bg-black" style="padding-top: 15px; padding-bottom: 15px; /*overflow-x: scroll*/; white-space: nowrap;" align="center">
-                                     <h2><strong>CLUSTER {{ c1 }}</strong></h2><!--overflow: auto -->
+                                <div class="header bg-black" style="padding: 15px; max-height: 50px;" align="center">
+                                    <div style="overflow-y: auto; max-height: 21px;">
+                                        <h2><strong>CLUSTER {{ c1 }}</strong></h2>
+                                     </div>
                                 </div>
                             {% endif %}
                             <div id="heatmap1" class="heatmap1" title="Slide on the subtitles to see more" style="overflow: hidden"></div>
@@ -454,9 +464,11 @@
                     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                         <div class="card">
                             {% if colect.imageboost %}
-                                <div class="header bg-black" style="padding-top: 15px; padding-bottom: 15px;" align="center">
-                                     <h2><strong>CLUSTER {{ c2 }}</strong></h2>
-                                </div>
+                             <div class="header bg-black" style="padding: 15px; max-height: 50px;" align="center">
+                                 <div style="overflow-y: auto; max-height: 21px;">
+                                    <h2><strong>CLUSTER {{ c2 }}</strong></h2>
+                                 </div>
+                             </div>
                             {% endif %}
                             <div id="heatmap2" class="heatmap2" title="Slide on the subtitles to see more" style="overflow: hidden;"></div>
                         </div>
