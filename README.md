@@ -32,3 +32,8 @@ Abaixo um exemplo de como o log deve estar exposto em um dataset do tipo .csv:
 
 Importante ressaltar que se o log carregado estiver com colunas que não estejam com os nomes iguais ao do exemplo, o carregamento da visualização falhará, e o upload não trará resultado.
 
+## Testes e Dados
+Os datasets usados para testar a ferramenta são provenientes de bancos de pesquisa pertencentes ao Process Mining Research Group USP. A seguir a lista e links dos logs de eventos utilizados para teste e desenvolvimento do projeto:
+* Enriched event log of an incident management process: http://processmining.each.webhostusp.sti.usp.br/index.php/event-logs/
+* 11th International Workshop on Business Process Intelligence 2015: https://www.win.tue.nl/bpi/doku.php?id=2015:challenge
+* Sepsis Cases Event Log: https://data.4tu.nl/articles/dataset/Sepsis_Cases_-_Event_Log/12707639
