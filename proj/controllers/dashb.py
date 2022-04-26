@@ -102,7 +102,7 @@ def heat_activs(obj, cl, index):
     fig = px.imshow(df.transpose(), labels={'x': 'Activity', 'y': 'Cluster', 'color': 'Cases'}, x=act_log,
                     y=list_clusters, width=700, height=450, color_continuous_scale='turbo')
     fig.update_layout(xaxis={'type': 'category'}, yaxis_nticks=len(list_clusters), xaxis_nticks=len(act_log))
-    fig.update_xaxes(side="top")
+    fig.update_xaxes(side="top", tickangle=-90)
     fig.update_coloraxes(cmax=len(set(result['Case ID'])), cmin=0)
     obj.heatmaps[index] = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
 

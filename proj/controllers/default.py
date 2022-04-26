@@ -2,8 +2,10 @@
 # possui apenas uma view onde se realiza o armazenamento do arquivo .csv,
 # a chamada dos métodos responsáveis pela filtragem dos dados e geração
 # da visualização na ferramenta.
+import os
+import sys
 
-from flask import render_template, request, redirect
+from flask import render_template, request, redirect, send_from_directory
 from proj.controllers import graphsconstr as gc
 from proj.controllers import dashb as dsb
 from proj import app
@@ -15,6 +17,8 @@ FILEALLOWED = ['.csv']
 datafilter = {'arq': 'No file chosen', 'cbxlist': []}
 pdirectory = []
 vsub = {}
+image_no_ = 0
+files_path = ""
 
 
 # montagem das atividadades mostradas na área de Activities List
@@ -32,6 +36,24 @@ def checkxtension(datas):
 # coleta da lista de clusters do .csv carregado
 def listcluster():
     return list(set(pdirectory[0]['cluster']))
+
+
+def resource_path(relative_path):
+    """ Get absolute path to resource, works for dev and for PyInstaller """
+    try:
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = ""
+    return os.path.join(base_path, relative_path)
+
+
+@app.route('/graphs/<path:filename>')
+def images(filename):
+    valid_file_formats = ['.jpg', '.png', '.bmp']
+    base_path = ""
+    if filename[-4:] in valid_file_formats:
+        base_path = resource_path('proj\static\graphs')
+    return send_from_directory(base_path, filename)
 
 
 # view da ferramenta
@@ -100,7 +122,7 @@ def test():
             colect.clean_data()
         colect.vsub, colect.datalog = dsb.get_datalog()
     else:
-        #print(filterchoice.errors)
         if len(datafilter['arq']) == 0: umcsv.filename = 'No file chosen'
-    return render_template("page.html", umcsv=umcsv, filterchoice=filterchoice, colect=colect, c1=str(colect.c1)[1:-1],
-                           c2=str(colect.c2)[1:-1])
+
+    return render_template("page.html", umcsv=umcsv, filterchoice=filterchoice, colect=colect,
+                           c1=str(colect.c1)[1:-1], c2=str(colect.c2)[1:-1])

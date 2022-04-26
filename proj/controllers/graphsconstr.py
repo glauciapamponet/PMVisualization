@@ -114,13 +114,14 @@ def createimgtrans(c1, c2, nome):
 
     g = get_graph(vertices['orig'], ord_edges)
     g.es['color'] = ['#ff0000' if edge.tuple in diffes else '#a1a1a1' if edge.tuple in edges['c1']
-                    else 'white' for edge in g.es]
+    else 'white' for edge in g.es]
 
     sizev, sizel, shapev, layout = view_config(g, vertices['orig'], edges['c1'])
-
     edwitdh = [3 if edge.tuple in diffes else 0 if edge.tuple not in edges['c1'] else 2 for edge in g.es]
+
+    files_path = dft.resource_path('proj\static\graphs\\')
     plot(g, layout=layout, vertex_shape=shapev, vertex_label_color="white", vertex_size=sizev, edge_width=edwitdh,
-         margin=[30, 40, 40, 30], vertex_label_size=sizel, bbox=(665, 665), target='proj/static/graphs/'+nome+'.png')
+         margin=[30, 40, 40, 30], vertex_label_size=sizel, bbox=(665, 665), target=files_path + nome + '.png')
 
 
 # Coleta das atividades que existem em um grupo mas não no outro
@@ -141,15 +142,19 @@ def createimgativs(c1, c2, nome):  # c2 são dois clusters
     g = get_graph(vertices['orig'], list(set(edges['log']) - set(edges['c1'])) + edges['c1'])
     g.es['color'] = ['black' if edge.tuple in edges['c1'] else 'white' for edge in g.es]
 
-    diffclus = get_diff_cluster(vertices['orig'], edges['c1'], edges['c2'])  # procura atividades que tem em C2, mas não tem em C1
-    atcolor = ['black' if vertices['orig'][n] == 'ST' or vertices['orig'][n] == 'END' else '#f0a202' if n in diffclus and nome == "g1"
+    diffclus = get_diff_cluster(vertices['orig'], edges['c1'],
+                                edges['c2'])  # procura atividades que tem em C2, mas não tem em C1
+    atcolor = ['black' if vertices['orig'][n] == 'ST' or vertices['orig'][
+        n] == 'END' else '#f0a202' if n in diffclus and nome == "g1"
     else '#f27cc9' if n in diffclus and nome == "g2" else '#001c57' for n in vertices['orig'].keys()]
 
-    lcolor = ['black' if n in get_diff_cluster(vertices['orig'], edges['c1'], edges['c2']) else 'white' for n in vertices['orig'].keys()]
+    lcolor = ['black' if n in get_diff_cluster(vertices['orig'], edges['c1'], edges['c2']) else 'white' for n in
+              vertices['orig'].keys()]
     sizev, sizel, shapev, layout = view_config(g, vertices['orig'], edges['c1'])
     diffclus = [vertices['orig'][k] for k in diffclus]
+    files_path = dft.resource_path('proj\static\graphs\\')
     plot(g, layout=layout, vertex_shape=shapev, vertex_label_color=lcolor, vertex_size=sizev, edge_width=2,
          margin=[30, 40, 40, 30], vertex_label_size=sizel, vertex_color=atcolor, bbox=(665, 665),
-         keep_aspect_ratio=False, target='proj/static/graphs/' + nome + '.png')
+         keep_aspect_ratio=False, target=files_path + nome + '.png')
 
     return diffclus
