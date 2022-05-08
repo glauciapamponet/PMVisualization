@@ -21,8 +21,8 @@ def choice_view(obj, wrd_choice):
         heat_trans(obj, obj.c2, 1)
 
 
-# Carregamento do log para ser usado pelos métodos
 def get_log():
+    """ Carregamento do log para ser usado pelos métodos"""
     result = dft.pdirectory[0].copy()
     result['Sequence'] = result['Sequence'].apply(lambda x: 'Start_Process ' + x + ' End_Process')
     # result = result.drop_duplicates(subject='Sequence') # para mudar para visu por case
@@ -31,8 +31,8 @@ def get_log():
     return result, vert_dict
 
 
-# Carregamento das estatísticas totais do log
 def get_datalog():
+    """ Carregamento das estatísticas totais do log"""
     res, vdict = get_log()
     variants = int(pd.DataFrame(res['Sequence'].explode().dropna().drop_duplicates()).count())
     cases = int(res.shape[0])
@@ -40,14 +40,12 @@ def get_datalog():
     return vdict, {'v': variants, 'c': cases, 'a': act}
 
 
-# contagem de frequencias
 def count_freq(item, df):
     return len([line for line in df if item in line])
 
 
-# Métricas do dashboard:
-# TEventos> TCases > TVariants > AVG Ev > AVG Act > AVG Time
 def get_metrics(obj, c1, index):
+    """ Métricas do dashboard:"""
     result = dft.pdirectory[0].copy()
 
     # ACTIVITIES MIN, AVG, MAX
@@ -73,9 +71,9 @@ def get_metrics(obj, c1, index):
     obj.totalEvnts[index] = int(res['evnts'].sum())
 
 
-# Construção do dataframe matriz para montar o heatmap
-# de frequencia de cada grupo de clusters, incluindo a seleção total
 def get_data(labels, df, clist, columns):
+    """ Construção do dataframe matriz para montar o heatmap
+        de frequencia de cada grupo de clusters, incluindo a seleção total"""
     dftrans = pd.DataFrame(columns=[columns[0]])
     dftrans[columns[0]] = labels
 
@@ -91,8 +89,8 @@ def get_data(labels, df, clist, columns):
     return dfheat
 
 
-# Construção do heatmap de frequencia de atividades
 def heat_activs(obj, cl, index):
+    """ Construção do heatmap de frequencia de atividades em cases"""
     result, act_dict = get_log()
     act_log = sorted(act_dict.keys())
 
@@ -100,23 +98,24 @@ def heat_activs(obj, cl, index):
     list_clusters = df.columns.tolist()
 
     fig = px.imshow(df.transpose(), labels={'x': 'Activity', 'y': 'Cluster', 'color': 'Cases'}, x=act_log,
-                    y=list_clusters, width=700, height=450, color_continuous_scale='turbo')
+                    y=list_clusters, color_continuous_scale='turbo')
     fig.update_layout(xaxis={'type': 'category'}, yaxis_nticks=len(list_clusters), xaxis_nticks=len(act_log))
     fig.update_xaxes(side="top", tickangle=-90)
     fig.update_coloraxes(cmax=len(set(result['Case ID'])), cmin=0)
+
     obj.heatmaps[index] = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
 
 
-# Lista de todas as transições presentes no log
 def get_transitions(df, dictio):
+    """ Lista de todas as transições presentes no log"""
     df['transitions'] = df['act seq'].apply(
         lambda x: [(get_key(x[i - 1], dictio), get_key(x[i], dictio)) for i in range(1, len(x))])
     labels = list(df['transitions'].explode().dropna().drop_duplicates())
     return [(i, j) for i, j in labels]
 
 
-# Construção do heatmap de frequencia de transições
 def heat_trans(obj, cl, index):
+    """ Construção do heatmap de frequencia de transições em cases"""
     result, vert_dict = get_log()
 
     # lista de todas as transições possiveis (usa o log para os heatmaps serem iguais)

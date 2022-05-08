@@ -4,25 +4,23 @@ from proj.controllers import graphsconstr as gc
 from flask_wtf.file import FileAllowed
 
 
-# Classe do formulário de arquivos
 class FileChoice(FlaskForm):
+    """ Classe do formulário de arquivos"""
     entry = MultipleFileField('CSVfile', validators=[FileAllowed(['csv', 'CSVs only!'])], render_kw={'multiple': True})
     filename = 'No file chosen'
 
     def chose_file(self, name):
         self.filename = name
 
-# Validação do combobox multiplo
+
 class NonValidatingSelectMultipleField(SelectMultipleField):
-    """
-    Attempt to make an open ended select multiple field that can accept dynamic
-    choices added by the browser.
-    """
+    """ Skip da validação de formulário do WTForms para exibição de combobox multiplo."""
     def pre_validate(self, form):
         pass
 
-# Classe do formulário de filtragem para a exibição das visualizações
+
 class ExibitionFilter(FlaskForm):
+    """ Classe do formulário de filtragem para a exibição das visualizações"""
     combobx = NonValidatingSelectMultipleField('Clusters', choices=[('-1', 'choose')], validate_choice=False)
     combobx2 = NonValidatingSelectMultipleField('Clusters', choices=[('-1', 'choose')], validate_choice=False)
     checkbxgraph = BooleanField("Graphs")
@@ -35,9 +33,9 @@ class ExibitionFilter(FlaskForm):
         self.combobx2.choices = [(i, i) for i in clusterlist]
 
 
-# Classe do objeto que contem os dados de visualização passados
-# na renderização do template
 class FilterColect():
+    """ Classe do objeto que contem os dados de visualização passados
+        na renderização do template"""
 
     def __init__(self):
         self.graphothers = False

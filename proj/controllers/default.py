@@ -1,4 +1,4 @@
-# arquivo responsável pela consetrução da view da ferramenta em flask.
+# arquivo responsável pela construção da view da ferramenta em flask.
 # possui apenas uma view onde se realiza o armazenamento do arquivo .csv,
 # a chamada dos métodos responsáveis pela filtragem dos dados e geração
 # da visualização na ferramenta.
@@ -21,25 +21,25 @@ image_no_ = 0
 files_path = ""
 
 
-# montagem das atividadades mostradas na área de Activities List
 def get_act(v):
+    """Montagem das atividadades mostradas na área de Activities List"""
     abrev, name = gc.get_vertices(pdirectory[0].copy())
     v = {abrev[i]: name[i] for i in name.keys()}
 
 
-# checagem da extensão que está sendo carregada na ferramenta. A única extensão
-# permitida na lista FILEALLOWED é .csv
 def checkxtension(datas):
+    """Checagem da extensão que está sendo carregada na ferramenta. A única extensão
+    permitida na lista FILEALLOWED é .csv"""
     return [files.filename for files in datas if files.filename[-4:] not in FILEALLOWED]
 
 
-# coleta da lista de clusters do .csv carregado
 def listcluster():
+    """Coleta da lista de clusters do .csv carregado"""
     return list(set(pdirectory[0]['cluster']))
 
 
 def resource_path(relative_path):
-    """ Get absolute path to resource, works for dev and for PyInstaller """
+    """ Traz o caminho absoluto do repositório. Necessário para o PyInstaller """
     try:
         base_path = sys._MEIPASS
     except Exception:
@@ -88,7 +88,10 @@ def test():
         except:
             colect.c1 = [val for val in set(filterchoice.combobx.data)]
             colect.c2 = [val for val in set(filterchoice.combobx2.data)]
-        if not (any(item in colect.c1 for item in colect.c2)):
+        print(colect.c1)
+        print(colect.c2)
+
+        if not (any(item in colect.c1 for item in colect.c2)) and len(colect.c1) > 0 and len(colect.c2) > 0:
             try:
                 dsb.get_metrics(colect, colect.c1, 0)
                 dsb.get_metrics(colect, colect.c2, 1)
@@ -117,7 +120,7 @@ def test():
                 except Exception as e:
                     print("ERRO: ", e)
                     colect.graphothers = False
-            filterchoice.updatecombo(datafilter['cbxlist'])  # para combobox que nao está funcionando
+            filterchoice.updatecombo(datafilter['cbxlist'])
         else:
             colect.clean_data()
         colect.vsub, colect.datalog = dsb.get_datalog()

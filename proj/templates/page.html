@@ -70,6 +70,12 @@
             margin-left: -1px;
             text-overflow: ellipsis;
         }
+        .ce{
+           padding-left: 3px;
+        }
+        .cd{
+           padding-right: 3px;
+        }
 
     </style>
 
@@ -122,26 +128,26 @@
                 </div>
                 <div class="file-stats">
                     <div class="col-lg-4 col-md-3 bx-stat">
-                        <div class="info-box" align="center" style="box-shadow: none; padding-top: 10px;">
+                        <div class="" align="center" style="box-shadow: none; padding-top: 10px;">
                             <div class="content" style="color: black;">
-                                <div class="text">CASES</div>
-                                <div class="number"> {{ colect.datalog["c"] }} </div>
+                                <div class="text" >CASES</div>
+                                <div class="number" style="font-size: 24px;"> {{ colect.datalog["c"] }} </div>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-3 bx-stat">
-                        <div class="info-box" align="center" style="box-shadow: none; padding-top: 10px;">
+                        <div class="" align="center" style="box-shadow: none; padding-top: 10px;">
                             <div class="content" style="color: black;">
                                 <div class="text">VARIANTS</div>
-                                <div class="number"> {{ colect.datalog["v"] }} </div>
+                                <div class="number" style="font-size: 24px;"> {{ colect.datalog["v"] }} </div>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-3 bx-stat">
-                        <div class="info-box" align="center" style="box-shadow: none; padding-top: 10px;">
+                        <div class="" align="center" style="box-shadow: none; padding-top: 10px;">
                             <div class="content" style="color: black;">
                                 <div class="text">ACTIVITIES</div>
-                                <div class="number"> {{ colect.datalog["a"] }} </div>
+                                <div class="number" style="font-size: 24px;"> {{ colect.datalog["a"] }} </div>
                             </div>
                         </div>
                     </div>
@@ -247,12 +253,10 @@
                              <div style="overflow-y: auto; max-height: 21px;">
                                  <h2><strong>CLUSTER {{ c1 }}</strong></h2>
                              </div>
-
-<!--                             <span><strong>CLUSTER {{ c1 }}</strong></span>-->
                          </div>
                     </div>
                     <div class="row">
-                        <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
+                        <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12 cd">
                             <div class="info-box bg-red" align="center">
                                 <div class="content">
                                     <div class="text">TOTAL EVENTS</div>
@@ -260,15 +264,15 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
+                        <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12 cd ce">
                             <div class="info-box bg-red" align="center">
                                 <div class="content">
-                                    <div class="text">TOTAL CASES</div>
+                                    <div class="text totalcases" >TOTAL CASES</div>
                                     <div class="number"> {{ colect.totalCases[0] }} </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
+                        <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12 cd ce">
                             <div class="info-box bg-red" align="center">
                                 <div class="content">
                                     <div class="text">TOTAL VARIANTS</div>
@@ -276,11 +280,11 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-3 col-md-2 col-sm-6 col-xs-12">
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 cd ce">
                             <div class="info-box bg-red" align="center">
-                                <div style="padding-top: 7px;">EVENTS/CASE</div>
+                                <div style="padding-top: 7px; font-size: 13px;">EVENTS/CASE</div>
                                 <div style="display: flex; justify-content: center;">
-                                   <div class="content contentduo">
+                                   <div class="content contentduo" style="padding-right: 1px;">
                                         <div class="text" style="font-size: 10px;">MIN</div>
                                         <div class="number"> {{ colect.evt[0]['min'] }} </div>
                                     </div>
@@ -288,19 +292,18 @@
                                         <div class="text" style="font-size: 10px;">AVG</div>
                                         <div class="number"> {{ colect.evt[0]['avg'] }} </div>
                                     </div>
-                                    <div class="content contentduo">
+                                    <div class="content contentduo" style="padding-left:1px;">
                                         <div class="text" style="font-size: 10px;">MAX</div>
                                         <div class="number"> {{ colect.evt[0]['max'] }} </div>
                                     </div>
                                 </div>
-
                             </div>
                         </div>
-                        <div class="col-lg-3 col-md-2 col-sm-6 col-xs-12">
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 ce">
                             <div class="info-box bg-red" align="center">
-                                <div style="padding-top: 7px;">ACTIVITIES/CASE</div>
+                                <div style="padding-top: 7px; font-size: 13px;">ACTIVITIES/CASE</div>
                                 <div style="display: flex; justify-content: center;">
-                                   <div class="content contentduo">
+                                   <div class="content contentduo" style="padding-right: 1px;">
                                         <div class="text" style="font-size: 10px;">MIN</div>
                                         <div class="number"> {{ colect.activ[0]['min'] }} </div>
                                     </div>
@@ -308,7 +311,7 @@
                                         <div class="text" style="font-size: 10px;">AVG</div>
                                         <div class="number"> {{ colect.activ[0]['avg'] }} </div>
                                     </div>
-                                    <div class="content contentduo">
+                                    <div class="content contentduo" style="padding-left: 1px;">
                                         <div class="text" style="font-size: 10px;">MAX</div>
                                         <div class="number"> {{ colect.activ[0]['max'] }} </div>
                                     </div>
@@ -326,7 +329,7 @@
                              </div>
                         </div>
                     <div class="row">
-                        <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
+                        <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12 cd">
                             <div class="info-box bg-red" align="center">
                                 <div class="content">
                                     <div class="text">TOTAL EVENTS</div>
@@ -334,15 +337,15 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
+                        <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12 cd ce">
                             <div class="info-box bg-red" align="center">
                                 <div class="content">
-                                    <div class="text">TOTAL CASES</div>
+                                    <div class="text totalcases" >TOTAL CASES</div>
                                     <div class="number"> {{ colect.totalCases[1] }} </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12">
+                        <div class="col-lg-2 col-md-2 col-sm-6 col-xs-12 cd ce">
                             <div class="info-box bg-red" align="center">
                                 <div class="content">
                                     <div class="text">TOTAL VARIANTS</div>
@@ -350,11 +353,11 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-3 col-md-2 col-sm-6 col-xs-12">
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 cd ce">
                                 <div class="info-box bg-red" align="center">
-                                    <div style="padding-top: 7px;">EVENTS/CASE</div>
+                                    <div style="padding-top: 7px; font-size: 13px;">EVENTS/CASE</div>
                                     <div style="display: flex; justify-content: center;">
-                                       <div class="content contentduo">
+                                       <div class="content contentduo" style="padding-right: 1px;">
                                             <div class="text" style="font-size: 10px;">MIN</div>
                                             <div class="number"> {{ colect.evt[1]['min'] }} </div>
                                         </div>
@@ -362,7 +365,7 @@
                                             <div class="text" style="font-size: 10px;">AVG</div>
                                             <div class="number"> {{ colect.evt[1]['avg'] }} </div>
                                         </div>
-                                        <div class="content contentduo">
+                                        <div class="content contentduo" style="padding-left: 1px;">
                                             <div class="text" style="font-size: 10px;">MAX</div>
                                             <div class="number"> {{ colect.evt[1]['max'] }} </div>
                                         </div>
@@ -370,11 +373,11 @@
 
                                 </div>
                             </div>
-                            <div class="col-lg-3 col-md-2 col-sm-6 col-xs-12">
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 ce">
                                 <div class="info-box bg-red" align="center">
-                                    <div style="padding-top: 7px;">ACTIVITIES/CASE</div>
+                                    <div style="padding-top: 7px; font-size: 13px;">ACTIVITIES/CASE</div>
                                     <div style="display: flex; justify-content: center;">
-                                       <div class="content contentduo">
+                                       <div class="content contentduo" style="padding-right: 1px;">
                                             <div class="text" style="font-size: 10px;">MIN</div>
                                             <div class="number"> {{ colect.activ[1]['min'] }} </div>
                                         </div>
@@ -382,7 +385,7 @@
                                             <div class="text" style="font-size: 10px;">AVG</div>
                                             <div class="number"> {{ colect.activ[1]['avg'] }} </div>
                                         </div>
-                                        <div class="content contentduo">
+                                        <div class="content contentduo" style="padding-left: 1px;">
                                             <div class="text" style="font-size: 10px;">MAX</div>
                                             <div class="number"> {{ colect.activ[1]['max'] }} </div>
                                         </div>
@@ -430,7 +433,8 @@
                                      </div>
                                 </div>
                             {% endif %}
-                            <div id="heatmap1" class="heatmap1" title="Slide on the subtitles to see more" style="overflow: hidden"></div>
+                            <div id="heatmap1" class="heatmap1" align="center" title="Slide on the subtitles to see more"
+                                 style="overflow: hidden"></div>
                         </div>
                     </div>
                     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
@@ -442,7 +446,8 @@
                                  </div>
                              </div>
                             {% endif %}
-                            <div id="heatmap2" class="heatmap2" title="Slide on the subtitles to see more" style="overflow: hidden;"></div>
+                            <div id="heatmap2" class="heatmap2" title="Slide on the subtitles to see more" align="center"
+                                 style="overflow: hidden;"></div>
                         </div>
                     </div>
                 </div>
@@ -456,15 +461,22 @@
     <script src="../static/plugins/node-waves/waves.js"></script>
     <script src="../static/admin.js"></script>
     <script src="../static/plugins/forms/basic-form-elements.js"></script>
-<!--    <script src="../static/plugins/jquery-slimscroll/jquery.slimscroll.js"></script>-->
 
     <script src = 'https://cdn.plot.ly/plotly-latest.min.js'> </script>
     <script type = 'text/javascript'>
       var graphs = {{colect.heatmaps[0] | safe}};
-      Plotly.plot ('heatmap1', graphs, {displaylogo:false});
+      Plotly.plot ('heatmap1', graphs, {scrollZoom: true});
 
       var graphs2 = {{colect.heatmaps[1] | safe}};
-      Plotly.plot ('heatmap2', graphs2, {});
+      Plotly.newPlot ('heatmap2', graphs2, {autosize: true});
+
+      document.getElementById("heatmap2").onresize = function() {
+        Plotly.relayout('heatmap2', {
+            'xaxis.autorange': true,
+            'xaxis.nticks': 5,
+            'yaxis.autorange': true
+        });
+      };
     </script>
     <script>
       const actualBtn = document.getElementById('actual-btn');
